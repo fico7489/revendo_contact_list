@@ -3,5 +3,7 @@
 {% block body %}
     <h1>Test users</h1>
 
-    {% block page_contents %}{% endblock %}
+    {% for user in users %}
+        {{ user.firstName }} {{ user.lastName }}, {{ user.email }}<br/>
+    {% endfor %}
 {% endblock %}
