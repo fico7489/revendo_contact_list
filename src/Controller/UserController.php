@@ -30,6 +30,16 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/users/{id}/edit', name: 'users.edit', methods: ['GET'])]
+    public function edit(EntityManagerInterface $em, int $id): Response
+    {
+        $user = $em->getRepository(User::class)->find($id);
+
+        return $this->render('users/edit.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
     #[Route('/users/{id}', name: 'users.delete', methods: ['DELETE'])]
     public function delete(EntityManagerInterface $em, int $id): Response
     {
