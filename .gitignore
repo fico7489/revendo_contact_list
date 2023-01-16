@@ -1,0 +1,11 @@
+/node_modules
+/resources/assets/js/am2-routes.js
+/resources/views/email/layouts/*.blade.php
+/public/build
+/public/img/svg/sprite/
+
+/.env
+/vendor
+/public/media
+/.phpunit.result.cache
+/.php-cs-fixer.cache

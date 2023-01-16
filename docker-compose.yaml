@@ -1,0 +1,35 @@
+services:
+
+  nginx:
+    container_name: REVENDO_nginx
+    build: ./.docker/nginx
+    ports:
+      - '5002:80'
+    volumes:
+      - ./:/var/www/html
+      - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+
+  php:
+    container_name: REVENDO_php
+    build: ./.docker/php
+    volumes:
+      - ./:/var/www/html
+  mysql:
+    container_name: REVENDO_mysql
+    build: ./.docker/mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=password"
+      - "MYSQL_DATABASE=laravel"
+      - "MYSQL_USER=user"
+      - "MYSQL_PASSWORD=password"
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./:/app
+    ports:
+      - "33320:3306"
+networks:
+  app-tier:
+    driver: bridge
+
+volumes:
+  db-data:
