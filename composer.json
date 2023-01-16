@@ -15,6 +15,8 @@
         "symfony/yaml": "6.2.*"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.13",
+        "phpstan/phpstan": "^1.9"
     },
     "config": {
         "allow-plugins": {
