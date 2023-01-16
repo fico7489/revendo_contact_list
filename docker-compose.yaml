@@ -19,7 +19,7 @@ services:
     build: ./.docker/mysql
     environment:
       - "MYSQL_ROOT_PASSWORD=password"
-      - "MYSQL_DATABASE=laravel"
+      - "MYSQL_DATABASE=revendo"
       - "MYSQL_USER=user"
       - "MYSQL_PASSWORD=password"
     volumes:
