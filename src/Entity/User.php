@@ -15,6 +15,7 @@ class User
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 3, minMessage: 'Your first name must be at least {{ limit }} characters long')]
     private ?string $first_name = null;
 
     #[ORM\Column(length: 255)]

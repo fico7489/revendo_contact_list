@@ -22,13 +22,39 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/users/{id}', name: 'users.show', methods: ['GET'])]
+    #[Route('/users/{id}', requirements: ['id' => "\d+"], name: 'users.show', methods: ['GET'])]
     public function show(EntityManagerInterface $em, int $id): Response
     {
         $user = $em->getRepository(User::class)->find($id);
 
         return $this->render('users/show.html.twig', [
             'user' => $user,
+        ]);
+    }
+
+    #[Route('/users/create', name: 'users.create', methods: ['GET', 'POST'])]
+    public function create(EntityManagerInterface $em, Request $request): Response
+    {
+        $user = new User();
+        $form = $this->createForm(ContactForm::class, $user, ['method' => 'POST']);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+
+            if ($user instanceof User) {
+                $user->setFavorite(false);
+                $em->persist($user);
+                $em->flush();
+            }
+
+            $this->addFlash('success', 'Contact successfully created!');
+
+            return $this->redirectToRoute('users.index');
+        }
+
+        return $this->render('users/create.html.twig', [
+            'form' => $form,
         ]);
     }
 
