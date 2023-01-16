@@ -29,4 +29,18 @@ class UserController extends AbstractController
             'user' => $user,
         ]);
     }
+
+    #[Route('/users/{id}', name: 'users.delete', methods: ['DELETE'])]
+    public function delete(EntityManagerInterface $em, int $id): Response
+    {
+        $user = $em->getRepository(User::class)->find($id);
+        if ($user) {
+            $em->remove($user);
+            $em->flush();
+        }
+
+        $this->addFlash('success', 'Contact successfully deleted!');
+
+        return $this->redirectToRoute('users.index');
+    }
 }

@@ -11,12 +11,12 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         // create 20 products! Bam!
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 20; ++$i) {
             $user = new User();
             $user->setFirstName('first_name-'.$i);
             $user->setLastName('last_name-'.$i);
-            $user->setEmail('first_name-'.$i . '@revendo.com');
-            $user->setFavorite(rand(0, 1));
+            $user->setEmail('first_name-'.$i.'@revendo.com');
+            $user->setFavorite((bool) rand(0, 1));
             $manager->persist($user);
         }
 

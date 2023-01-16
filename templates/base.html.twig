@@ -58,6 +58,16 @@
         </div>
         <div class="col py-3">
             <div class="container">
+                {% for success in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ success }}
+                    </div>
+                {% endfor %}
+                {% for error in app.flashes('error') %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
                 {% block body %}{% endblock %}
             </div>
         </div>
