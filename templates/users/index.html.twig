@@ -1,9 +1,29 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Test users</h1>
+    <h1>Contacts</h1>
 
-    {% for user in users %}
-        {{ user.firstName }} {{ user.lastName }}, {{ user.email }}<br/>
-    {% endfor %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Email</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td scope="col">#{{ user.getId }}</td>
+                <td scope="col">{{ user.firstName }}</td>
+                <td scope="col">{{ user.lastName }}</td>
+                <td scope="col">{{ user.email }}</td>
+                <td></td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
 {% endblock %}
