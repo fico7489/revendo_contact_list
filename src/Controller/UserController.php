@@ -1,0 +1,19 @@
+<?php
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class UserController extends AbstractController
+{
+    #[Route('/users', name: 'users.index')]
+    public function list(): Response
+    {
+        $users = [];
+
+        return $this->render('users/index.html.twig', [
+            'users' => $users,
+        ]);
+    }
+}
