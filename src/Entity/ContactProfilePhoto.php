@@ -20,7 +20,10 @@ class ContactProfilePhoto
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $size = null;
+    private ?string $mimeType = null;
+
+    #[ORM\Column(length: 255)]
+    private ?int $size = null;
 
     #[ORM\OneToOne(targetEntity: Contact::class, inversedBy: 'contactProfilePhoto')]
     #[ORM\JoinColumn(name: 'contact_id', referencedColumnName: 'id')]
@@ -55,12 +58,12 @@ class ContactProfilePhoto
         return $this;
     }
 
-    public function getSize(): ?string
+    public function getSize(): ?int
     {
         return $this->size;
     }
 
-    public function setSize(string $size): self
+    public function setSize(int $size): self
     {
         $this->size = $size;
 
@@ -75,5 +78,15 @@ class ContactProfilePhoto
     public function setContact(Contact $contact): void
     {
         $this->contact = $contact;
+    }
+
+    public function getMimeType(): ?string
+    {
+        return $this->mimeType;
+    }
+
+    public function setMimeType(?string $mimeType): void
+    {
+        $this->mimeType = $mimeType;
     }
 }

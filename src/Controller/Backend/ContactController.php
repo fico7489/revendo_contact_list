@@ -4,6 +4,7 @@ namespace App\Controller\Backend;
 
 use App\Entity\Contact;
 use App\Form\ContactForm;
+use App\Form\ContactProfilePhotoForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,12 +59,13 @@ class ContactController extends AbstractController
         ]);
     }
 
-    #[Route('/contacts/{id}/edit', name: 'backend.contacts.edit', methods: ['GET', 'PATCH'])]
+    #[Route('/contacts/{id}/edit', requirements: ['id' => "\d+"], name: 'backend.contacts.edit', methods: ['GET', 'PATCH'])]
     public function edit(EntityManagerInterface $em, Request $request, int $id): Response
     {
         $contact = $em->getRepository(Contact::class)->find($id);
 
         $form = $this->createForm(ContactForm::class, $contact);
+        $formContactProfilePhoto = $this->createForm(ContactProfilePhotoForm::class, $contact, ['method' => 'POST']);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -81,10 +83,12 @@ class ContactController extends AbstractController
 
         return $this->render('backend/contacts/edit.html.twig', [
             'form' => $form,
+            'formContactProfilePhoto' => $formContactProfilePhoto,
+            'contact' => $contact,
         ]);
     }
 
-    #[Route('/contacts/{id}', name: 'backend.contacts.delete', methods: ['DELETE'])]
+    #[Route('/contacts/{id}', requirements: ['id' => "\d+"], name: 'backend.contacts.delete', methods: ['DELETE'])]
     public function delete(EntityManagerInterface $em, int $id): Response
     {
         $contact = $em->getRepository(Contact::class)->find($id);
