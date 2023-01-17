@@ -27,9 +27,11 @@ services:
       - ./:/app
     ports:
       - "33320:3306"
-networks:
-  app-tier:
-    driver: bridge
+  mailhog:
+    container_name: REVENDO_mailhog
+    build: ./.docker/mailhog
+    ports:
+      - "8502:8025"
 
 volumes:
   db-data:
