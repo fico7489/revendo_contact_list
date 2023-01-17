@@ -28,7 +28,7 @@ class Contact
     #[ORM\Column]
     private ?bool $favorite = null;
 
-    #[ORM\OneToOne(targetEntity: ContactProfilePhoto::class, mappedBy: 'contact')]
+    #[ORM\OneToOne(targetEntity: ContactProfilePhoto::class, mappedBy: 'contact', cascade: ['remove'])]
     private ?ContactProfilePhoto $contactProfilePhoto = null;
 
     public function getId(): ?int

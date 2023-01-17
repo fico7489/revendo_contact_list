@@ -7,7 +7,7 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 
-class EmailForCreatedContactSender
+class SendEmailForCreatedContact
 {
     private MailerInterface $mailer;
 
