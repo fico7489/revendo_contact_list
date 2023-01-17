@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Edit user</h1>
+    <h1>Edit contact</h1>
 
     {{ form_start(form) }}
-    <input type="hidden" name="_method" value="PATCH" />
+    <input type="hidden" name="_method" value="POST" />
     {{ form_widget(form) }}
     <button type="submit" class="btn btn-primary">Save</button>
     {{ form_end(form) }}

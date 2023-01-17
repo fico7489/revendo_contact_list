@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Edit contact</h1>
+
+    {{ form_start(form) }}
+    <input type="hidden" name="_method" value="PATCH" />
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary">Save</button>
+    {{ form_end(form) }}
+
+    <br/><br/>
+
+    <form>
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <input type="file" id="file" class="form-control" />
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+    </form>
+
+{% endblock %}
+
