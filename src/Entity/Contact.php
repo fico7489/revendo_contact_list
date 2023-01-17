@@ -28,6 +28,9 @@ class Contact
     #[ORM\Column]
     private ?bool $favorite = null;
 
+    #[ORM\OneToOne(targetEntity: ContactProfilePhoto::class, mappedBy: 'contact')]
+    private ?ContactProfilePhoto $contactProfilePhoto = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -79,5 +82,15 @@ class Contact
         $this->favorite = $favorite;
 
         return $this;
+    }
+
+    public function getContactProfilePhoto(): ?ContactProfilePhoto
+    {
+        return $this->contactProfilePhoto;
+    }
+
+    public function setContactProfilePhoto(?ContactProfilePhoto $contactProfilePhoto): void
+    {
+        $this->contactProfilePhoto = $contactProfilePhoto;
     }
 }
