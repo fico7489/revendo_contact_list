@@ -1,39 +1,44 @@
 {% extends 'backend/base.html.twig' %}
 
 {% block body %}
-    <h1>Contacts</h1>
+    <h5 class="card-title">Contacts</h5>
 
     <table class="table">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">First name</th>
-            <th scope="col">Last name</th>
+            <th scope="col">Name</th>
             <th scope="col">Email</th>
-            <th>Actions</th>
+            <th scope="col">Favorite</th>
+            <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
         {% for contact in contacts %}
             <tr>
-                <td scope="col">#{{ contact.getId }}</td>
-                <td scope="col">{{ contact.firstName }}</td>
-                <td scope="col">{{ contact.lastName }}</td>
-                <td scope="col">{{ contact.email }}</td>
+                <th scope="row">{{ contact.getId }}</th>
+                <td>{{ contact.firstName }} {{ contact.lastName }}</td>
+                <td>{{ contact.getEmail }}</td>
+                <td>
+                    {% if contact.isFavorite %}
+                        <i class="bi bi-heart-fill"></i>
+                    {% else %}
+                        <i class="bi bi-heart"></i>
+                    {% endif %}
+                </td>
                 <td>
                     <a href="{{ url('backend.contacts.show', {id : contact.getId}) }}">
-                        {{ include('backend/_partials/icons/show.html.twig') }}
+                        <i class="bi bi-zoom-in"></i>
                     </a>
-
                     <a href="{{ url('backend.contacts.edit', {id : contact.getId}) }}">
-                        {{ include('backend/_partials/icons/edit.html.twig') }}
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="#" onclick="response = confirm('Are you sure you want to delete?'); if(response) document.getElementById('delete-{{ contact.getId }}').submit();">
+                        <i class="bi bi-x"></i>
                     </a>
 
                     <form action="{{ url('backend.contacts.delete', {id : contact.getId}) }}" method="post" id="delete-{{ contact.getId }}">
-                        <input type="hidden" name="_method" value="DELETE" />
-                        <a href="#" onclick="document.getElementById('delete-{{ contact.getId }}').submit();">
-                            {{ include('backend/_partials/icons/delete.html.twig') }}
-                        </a>
+                        <input type="hidden" name="_method" value="DELETE"/>
                     </form>
                 </td>
             </tr>
