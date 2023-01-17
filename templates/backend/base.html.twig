@@ -1,68 +1,145 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Revendo demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-          crossorigin="anonymous">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Revendo - Contact List</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
 </head>
+
 <body>
+<header id="header" class="header fixed-top d-flex align-items-center">
 
-<div class="container-fluid">
-    <div class="row flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
-            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                    <span class="fs-5 d-none d-sm-inline">REVENDO</span>
-                </a>
-                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                    <li class="nav-item">
-                        <a href="{{ url('backend.contacts.create') }}" class="nav-link align-middle px-0">
-                            {{ include('backend/_partials/icons/add.html.twig') }}
-                            <span class="ms-1 d-none d-sm-inline">
-                                Add New Contact
-                            </span>
-                        </a>
-                    </li>
+    <div class="d-flex align-items-center justify-content-between">
+        <a href="index.html" class="logo d-flex align-items-center">
+            <img src="assets/img/logo.png" alt="">
+            <span class="d-none d-lg-block">REVENDO</span>
+        </a>
 
-                    <li class="nav-item">
-                        <a href="{{ url('backend.contacts.index') }}" class="nav-link align-middle px-0">
-                            {{ include('backend/_partials/icons/listing.html.twig') }}
-                            <span class="ms-1 d-none d-sm-inline">
-                                All Contacts
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle">
-                            {{ include('backend/_partials/icons/listing_favorite.html.twig') }}
-                            <span class="ms-1 d-none d-sm-inline">
-                                My Favorites
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col py-3">
-            <div class="container">
-                {% for success in app.flashes('success') %}
-                    <div class="alert alert-success">
-                        {{ success }}
-                    </div>
-                {% endfor %}
-                {% for error in app.flashes('error') %}
-                    <div class="alert alert-danger">
-                        {{ error }}
-                    </div>
-                {% endfor %}
-                {% block body %}{% endblock %}
-            </div>
-        </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <div class="search-bar">
+        <form class="search-form d-flex align-items-center" method="POST" action="#">
+            <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+</header>
+
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item ">
+            <a class="nav-link" href="#">
+                <i class="bi bi-person-add"></i>
+                <span>New Contact</span>
+            </a>
+        </li>
+        <hr/>
+        <li class="nav-item ">
+            <a class="nav-link" href="#">
+                <i class="bi bi-clipboard"></i>
+                <span>All Contacts</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="bi bi-clipboard-heart"></i>
+                <span>My Favorites</span>
+            </a>
+        </li>
+    </ul>
+
+</aside>
+
+<main id="main" class="main">
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Contacts</h5>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Position</th>
+                                <th scope="col">Age</th>
+                                <th scope="col">Start Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Brandon Jacob</td>
+                                <td>Designer</td>
+                                <td>28</td>
+                                <td>2016-05-25</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Bridie Kessler</td>
+                                <td>Developer</td>
+                                <td>35</td>
+                                <td>2014-12-05</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Ashleigh Langosh</td>
+                                <td>Finance</td>
+                                <td>45</td>
+                                <td>2011-08-12</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td>Angus Grady</td>
+                                <td>HR</td>
+                                <td>34</td>
+                                <td>2012-06-11</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">5</th>
+                                <td>Raheem Lehner</td>
+                                <td>Dynamic Division Officer</td>
+                                <td>47</td>
+                                <td>2011-04-19</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer id="footer" class="footer">
+    <div class="credits">
+        Author:<a href="#">Filip Horvat</a>
+    </div>
+</footer>
+
 </body>
+
 </html>
