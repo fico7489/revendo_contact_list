@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileUploader
@@ -18,11 +17,7 @@ class FileUploader
     {
         $clientOriginalName = $file->getClientOriginalName();
 
-        try {
-            $file->move($this->getTargetDirectory(), $clientOriginalName);
-        } catch (FileException $e) {
-            // TODO
-        }
+        $file->move($this->getTargetDirectory(), $clientOriginalName);
 
         return $clientOriginalName;
     }

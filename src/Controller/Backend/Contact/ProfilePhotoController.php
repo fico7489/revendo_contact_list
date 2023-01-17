@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProfilePhotoController extends AbstractController
 {
-    #[Route('/contacts/profile-photo/{id}/create', requirements: ['id' => "\d+"], name: 'backend.contacts.profilePhoto.create', methods: ['GET', 'POST'])]
+    #[Route('/contacts/profile-photo/{id}/create', requirements: ['id' => "\d+"], name: 'backend.contacts.profilePhoto.create', methods: ['POST'])]
     public function create(int $id, EntityManagerInterface $em, FileUploader $fileUploader, Request $request): Response
     {
         /** @var Contact $contact */
@@ -31,17 +31,18 @@ class ProfilePhotoController extends AbstractController
                 /* @var \Symfony\Component\HttpFoundation\File\UploadedFile $profilePhotoFile */
                 $profilePhotoFile = $form->get('profilePhoto')->getData();
 
+                $contactProfilePhoto = new ContactProfilePhoto();
                 if ($profilePhotoFile instanceof UploadedFile) {
+                    $contactProfilePhoto->setContact($contact);
+                    $contactProfilePhoto->setMimeType((string) $profilePhotoFile->getMimeType());
+                    $contactProfilePhoto->setSize((int) $profilePhotoFile->getSize());
+
                     $fileName = $fileUploader->upload($profilePhotoFile);
 
-                    if ($fileName) {
-                        $contactProfilePhoto = new ContactProfilePhoto();
-                        $contactProfilePhoto->setContact($contact);
-                        $contactProfilePhoto->setPath($fileName);
-                        $contactProfilePhoto->setName($fileName);
-                        $contactProfilePhoto->setMimeType($profilePhotoFile->getMimeType());
-                        $contactProfilePhoto->setSize((int) $profilePhotoFile->getSize());
+                    $contactProfilePhoto->setPath((string) $fileName);
+                    $contactProfilePhoto->setName((string) $fileName);
 
+                    if ($fileName) {
                         $em->persist($contactProfilePhoto);
                         $em->flush();
                     }
