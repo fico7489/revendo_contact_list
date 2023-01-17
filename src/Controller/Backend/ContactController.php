@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Backend;
 
 use App\Entity\Contact;
 use App\Form\ContactForm;
@@ -12,27 +12,27 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends AbstractController
 {
-    #[Route('/contacts', name: 'contacts.index', methods: ['GET'])]
+    #[Route('/contacts', name: 'backend.contacts.index', methods: ['GET'])]
     public function index(EntityManagerInterface $em): Response
     {
         $contacts = $em->getRepository(Contact::class)->findAll();
 
-        return $this->render('contacts/index.html.twig', [
+        return $this->render('backend/contacts/index.html.twig', [
             'contacts' => $contacts,
         ]);
     }
 
-    #[Route('/contacts/{id}', requirements: ['id' => "\d+"], name: 'contacts.show', methods: ['GET'])]
+    #[Route('/contacts/{id}', requirements: ['id' => "\d+"], name: 'backend.contacts.show', methods: ['GET'])]
     public function show(EntityManagerInterface $em, int $id): Response
     {
         $contact = $em->getRepository(Contact::class)->find($id);
 
-        return $this->render('contacts/show.html.twig', [
+        return $this->render('backend/contacts/show.html.twig', [
             'contact' => $contact,
         ]);
     }
 
-    #[Route('/contacts/create', name: 'contacts.create', methods: ['GET', 'POST'])]
+    #[Route('/contacts/create', name: 'backend.contacts.create', methods: ['GET', 'POST'])]
     public function create(EntityManagerInterface $em, Request $request): Response
     {
         $contact = new Contact();
@@ -50,15 +50,15 @@ class ContactController extends AbstractController
 
             $this->addFlash('success', 'Contact successfully created!');
 
-            return $this->redirectToRoute('contacts.index');
+            return $this->redirectToRoute('backend.contacts.index');
         }
 
-        return $this->render('contacts/create.html.twig', [
+        return $this->render('backend/contacts/create.html.twig', [
             'form' => $form,
         ]);
     }
 
-    #[Route('/contacts/{id}/edit', name: 'contacts.edit', methods: ['GET', 'PATCH'])]
+    #[Route('/contacts/{id}/edit', name: 'backend.contacts.edit', methods: ['GET', 'PATCH'])]
     public function edit(EntityManagerInterface $em, Request $request, int $id): Response
     {
         $contact = $em->getRepository(Contact::class)->find($id);
@@ -76,15 +76,15 @@ class ContactController extends AbstractController
 
             $this->addFlash('success', 'Contact successfully updated!');
 
-            return $this->redirectToRoute('contacts.index');
+            return $this->redirectToRoute('backend.contacts.index');
         }
 
-        return $this->render('contacts/edit.html.twig', [
+        return $this->render('backend/contacts/edit.html.twig', [
             'form' => $form,
         ]);
     }
 
-    #[Route('/contacts/{id}', name: 'contacts.delete', methods: ['DELETE'])]
+    #[Route('/contacts/{id}', name: 'backend.contacts.delete', methods: ['DELETE'])]
     public function delete(EntityManagerInterface $em, int $id): Response
     {
         $contact = $em->getRepository(Contact::class)->find($id);
@@ -95,6 +95,6 @@ class ContactController extends AbstractController
 
         $this->addFlash('success', 'Contact successfully deleted!');
 
-        return $this->redirectToRoute('contacts.index');
+        return $this->redirectToRoute('backend.contacts.index');
     }
 }
