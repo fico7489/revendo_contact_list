@@ -14,7 +14,8 @@ class ContactForm extends AbstractType
         $builder
             ->add('firstName')
             ->add('lastName')
-            ->add('email');
+            ->add('email')
+            ->add('favorite');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
