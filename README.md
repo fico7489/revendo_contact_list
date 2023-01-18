@@ -18,6 +18,7 @@
 - php bin/console doctrine:migrations:migrate
 - php bin/console doctrine:fixtures:load
 - php bin/console debug:router
+- bin/console hautelook:fixtures:load
 
 
 ### other
