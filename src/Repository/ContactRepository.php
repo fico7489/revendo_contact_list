@@ -39,20 +39,27 @@ class ContactRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Contact[] Returns an array of Contact objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Contact[] Returns an array of Contact objects
+     */
+    public function findBySearchQuery(?string $q)
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->orderBy('c.id', 'ASC')
+            ->setMaxResults(PHP_INT_MAX);
+
+        if (null != $q) {
+            $queryBuilder
+                ->andWhere('c.firstName LIKE :q')
+                ->orWhere('c.lastName LIKE :q')
+                ->setParameter('q', '%'.$q.'%');
+        }
+
+        /** @var Contact[] $results */
+        $results = $queryBuilder->getQuery()->getResult();
+
+        return $results;
+    }
 
 //    public function findOneBySomeField($value): ?Contact
 //    {

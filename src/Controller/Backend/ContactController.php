@@ -6,6 +6,7 @@ use App\Entity\Contact;
 use App\Form\ContactForm;
 use App\Form\ContactPhonesForm;
 use App\Form\ContactProfilePhotoForm;
+use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ContactController extends AbstractController
 {
     #[Route('/contacts', name: 'backend.contacts.index', methods: ['GET'])]
-    public function index(EntityManagerInterface $em): Response
+    public function index(EntityManagerInterface $em, Request $request, ContactRepository $contactRepository): Response
     {
-        $contacts = $em->getRepository(Contact::class)->findAll();
+        $q = $request->get('q');
+        $q = is_string($q) ? $q : '';
+        $contacts = $contactRepository->findBySearchQuery($q);
 
         return $this->render('backend/contacts/index.html.twig', [
             'contacts' => $contacts,

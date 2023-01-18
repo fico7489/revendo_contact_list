@@ -3,6 +3,7 @@
 namespace App\Controller\Backend\Contact;
 
 use App\Entity\Contact;
+use App\Entity\ContactPhone;
 use App\Form\ContactPhonesForm;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ContactController extends AbstractController
+class PhoneController extends AbstractController
 {
     #[Route('/contacts/phone/{id}/create', requirements: ['id' => "\d+"], name: 'backend.contacts.phone.create', methods: ['POST'])]
     public function create(int $id, EntityManagerInterface $em, ParameterBagInterface $parameters, Request $request): Response
@@ -43,8 +44,10 @@ class ContactController extends AbstractController
 
                 // persist new added phones
                 foreach ($contact->getContactPhones() as $contactPhone) {
-                    $contactPhone->setContact($contact);
-                    $em->persist($contactPhone);
+                    if ($contactPhone instanceof ContactPhone) {
+                        $contactPhone->setContact($contact);
+                        $em->persist($contactPhone);
+                    }
                 }
 
                 $em->persist($contact);
