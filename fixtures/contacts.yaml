@@ -6,8 +6,8 @@ App\Entity\Contact:
     favorite: <boolean()>
 App\Entity\ContactProfilePhoto:
   contact_profile_photo_{1..20}:
-    path: <lexify()>
     name: <lexify()>
+    path: <contactProfilePhotoName()>
     mimeType: <mimeType()>
     size: <randomNumber()>
     contact: '@contact_<current()>'
