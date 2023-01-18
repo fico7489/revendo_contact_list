@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Contact;
 
 use App\Entity\Contact;
 use Symfony\Component\Form\AbstractType;
@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Image;
 
-class ContactProfilePhotoForm extends AbstractType
+class ProfilePhotoForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

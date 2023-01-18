@@ -4,7 +4,7 @@ namespace App\Controller\Backend\Contact;
 
 use App\Entity\Contact;
 use App\Entity\ContactProfilePhoto;
-use App\Form\ContactProfilePhotoForm;
+use App\Form\Contact\ProfilePhotoForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -21,7 +21,7 @@ class ProfilePhotoController extends AbstractController
         /** @var Contact $contact */
         $contact = $em->getRepository(Contact::class)->find($id);
 
-        $form = $this->createForm(ContactProfilePhotoForm::class, $contact, ['method' => 'POST']);
+        $form = $this->createForm(ProfilePhotoForm::class, $contact, ['method' => 'POST']);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

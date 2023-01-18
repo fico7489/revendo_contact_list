@@ -3,9 +3,9 @@
 namespace App\Controller\Backend;
 
 use App\Entity\Contact;
+use App\Form\Contact\PhonesForm;
+use App\Form\Contact\ProfilePhotoForm;
 use App\Form\ContactForm;
-use App\Form\ContactPhonesForm;
-use App\Form\ContactProfilePhotoForm;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -69,8 +69,8 @@ class ContactController extends AbstractController
         $contact = $em->getRepository(Contact::class)->find($id);
 
         $form = $this->createForm(ContactForm::class, $contact);
-        $formContactProfilePhoto = $this->createForm(ContactProfilePhotoForm::class, $contact, ['method' => 'POST']);
-        $formContactPhones = $this->createForm(ContactPhonesForm::class, $contact, ['method' => 'POST']);
+        $formContactProfilePhoto = $this->createForm(ProfilePhotoForm::class, $contact, ['method' => 'POST']);
+        $formContactPhones = $this->createForm(PhonesForm::class, $contact, ['method' => 'POST']);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

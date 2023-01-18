@@ -4,7 +4,7 @@ namespace App\Controller\Backend\Contact;
 
 use App\Entity\Contact;
 use App\Entity\ContactPhone;
-use App\Form\ContactPhonesForm;
+use App\Form\Contact\PhonesForm;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +21,7 @@ class PhoneController extends AbstractController
         /** @var Contact $contact */
         $contact = $em->getRepository(Contact::class)->find($id);
 
-        $form = $this->createForm(ContactPhonesForm::class, $contact, ['method' => 'POST']);
+        $form = $this->createForm(PhonesForm::class, $contact, ['method' => 'POST']);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
