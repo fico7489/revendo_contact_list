@@ -30,10 +30,10 @@ class Contact
     #[ORM\Column]
     private ?bool $favorite = null;
 
-    #[ORM\OneToOne(targetEntity: ContactProfilePhoto::class, mappedBy: 'contact', cascade: ['remove'])]
+    #[ORM\OneToOne(targetEntity: ContactProfilePhoto::class, mappedBy: 'contact', cascade: ['remove'], orphanRemoval : true)]
     private ?ContactProfilePhoto $contactProfilePhoto = null;
 
-    #[ORM\OneToMany(targetEntity: ContactPhone::class, mappedBy: 'contact')]
+    #[ORM\OneToMany(targetEntity: ContactPhone::class, mappedBy: 'contact', cascade: ['remove'], orphanRemoval : true)]
     private Collection $contactPhones;
 
     public function __construct()
@@ -112,10 +112,5 @@ class Contact
     public function setContactPhones(Collection $contactPhones): void
     {
         $this->contactPhones = $contactPhones;
-    }
-
-    public function removeContactPhone(ContactPhone $contactPhone): void
-    {
-        $this->contactPhones->removeElement($contactPhone);
     }
 }

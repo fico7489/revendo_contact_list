@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Contact;
-use App\Entity\ContactPhone;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,13 +12,12 @@ class ContactPhonesForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder->add('contactPhones', CollectionType::class, [
             'entry_type' => ContactPhoneForm::class,
             'allow_add' => true,
             'allow_delete' => true,
             'entry_options' => [
-                //'label' => false
+                // 'label' => false
             ],
         ]);
     }

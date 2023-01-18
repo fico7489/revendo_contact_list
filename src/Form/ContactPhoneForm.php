@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Contact;
 use App\Entity\ContactPhone;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

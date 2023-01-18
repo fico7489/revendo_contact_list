@@ -54,7 +54,7 @@ class ProfilePhotoController extends AbstractController
                 return $this->redirectToRoute('backend.contacts.edit', ['id' => $contact->getId()]);
             }
         }
-        $file = $request->files->get('contactProfilePhoto');
+        // TODO show error
 
         return $this->render('backend/contacts/create.html.twig', [
             'form' => $form,
