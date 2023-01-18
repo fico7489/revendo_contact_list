@@ -37,7 +37,12 @@
         "friendsofphp/php-cs-fixer": "^3.13",
         "hautelook/alice-bundle": "^2.11",
         "phpstan/phpstan": "^1.9",
-        "symfony/maker-bundle": "^1.48"
+        "phpunit/phpunit": "^9.5",
+        "symfony/browser-kit": "6.2.*",
+        "symfony/css-selector": "6.2.*",
+        "symfony/http-client": "6.2.*",
+        "symfony/maker-bundle": "^1.48",
+        "symfony/phpunit-bridge": "^6.2"
     },
     "config": {
         "allow-plugins": {

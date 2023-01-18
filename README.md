@@ -10,11 +10,14 @@
 - vendor/bin/php-cs-fixer fix
 - vendor/bin/phpstan analyse
 - php bin/console lint:twig templates
+- bin/phpunit
+
 
 ### symfony commands
 - php bin/console doctrine:migrations:diff
 - php bin/console doctrine:migrations:migrate
 - php bin/console doctrine:fixtures:load
+
 
 ### other
 - api platform: https://api-platform.com/
