@@ -1,0 +1,13 @@
+App\Entity\Contact:
+  contact_{1..20}:
+    firstName: <firstName()>
+    lastName: <lastName()>
+    email: <email()>
+    favorite: <boolean()>
+App\Entity\ContactProfilePhoto:
+  contact_profile_photo_{1..20}:
+    path: <lexify()>
+    name: <lexify()>
+    mimeType: <mimeType()>
+    size: <randomNumber()>
+    contact: '@contact_<current()>'
