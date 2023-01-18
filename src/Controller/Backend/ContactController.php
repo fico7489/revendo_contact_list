@@ -48,7 +48,6 @@ class ContactController extends AbstractController
             $contact = $form->getData();
 
             if ($contact instanceof Contact) {
-                $contact->setFavorite(false);
                 $em->persist($contact);
                 $em->flush();
             }
@@ -77,6 +76,7 @@ class ContactController extends AbstractController
             $contact = $form->getData();
 
             if ($contact instanceof Contact) {
+                $contact->setFavorite($form->get('favorite')->isSubmitted());
                 $em->persist($contact);
                 $em->flush();
             }

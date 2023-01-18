@@ -3,10 +3,7 @@
 {% block body %}
     <h5 class="card-title">Create Contact</h5>
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit" class="btn btn-primary">Save</button>
-    {{ form_end(form) }}
+    {{ include('backend/contacts/_partials/form_details.html.twig') }}
 
 {% endblock %}
 

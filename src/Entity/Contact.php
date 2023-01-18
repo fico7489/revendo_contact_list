@@ -29,13 +29,13 @@ class Contact
     #[Assert\Email(message: 'The email {{ value }} is not a valid email.', )]
     private ?string $email = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ['default' => false])]
     private ?bool $favorite = null;
 
-    #[ORM\OneToOne(targetEntity: ContactProfilePhoto::class, mappedBy: 'contact', cascade: ['remove'], orphanRemoval : true)]
+    #[ORM\OneToOne(targetEntity: ContactProfilePhoto::class, mappedBy: 'contact', cascade: ['remove'], orphanRemoval: true)]
     private ?ContactProfilePhoto $contactProfilePhoto = null;
 
-    #[ORM\OneToMany(targetEntity: ContactPhone::class, mappedBy: 'contact', cascade: ['remove'], orphanRemoval : true)]
+    #[ORM\OneToMany(targetEntity: ContactPhone::class, mappedBy: 'contact', cascade: ['remove'], orphanRemoval: true)]
     private Collection $contactPhones;
 
     public function __construct()
@@ -84,16 +84,14 @@ class Contact
         return $this;
     }
 
-    public function isFavorite(): ?bool
+    public function getFavorite(): ?bool
     {
         return $this->favorite;
     }
 
-    public function setFavorite(bool $favorite): self
+    public function setFavorite(bool $favorite): void
     {
         $this->favorite = $favorite;
-
-        return $this;
     }
 
     public function getContactProfilePhoto(): ?ContactProfilePhoto
