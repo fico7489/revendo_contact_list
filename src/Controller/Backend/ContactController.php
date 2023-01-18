@@ -4,6 +4,7 @@ namespace App\Controller\Backend;
 
 use App\Entity\Contact;
 use App\Form\ContactForm;
+use App\Form\ContactPhonesForm;
 use App\Form\ContactProfilePhotoForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -66,6 +67,7 @@ class ContactController extends AbstractController
 
         $form = $this->createForm(ContactForm::class, $contact);
         $formContactProfilePhoto = $this->createForm(ContactProfilePhotoForm::class, $contact, ['method' => 'POST']);
+        $formContactPhones = $this->createForm(ContactPhonesForm::class, $contact, ['method' => 'POST']);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -84,6 +86,7 @@ class ContactController extends AbstractController
         return $this->render('backend/contacts/edit.html.twig', [
             'form' => $form,
             'formContactProfilePhoto' => $formContactProfilePhoto,
+            'formContactPhones' => $formContactPhones,
             'contact' => $contact,
         ]);
     }

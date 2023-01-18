@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ContactRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -34,6 +35,11 @@ class Contact
 
     #[ORM\OneToMany(targetEntity: ContactPhone::class, mappedBy: 'contact')]
     private Collection $contactPhones;
+
+    public function __construct()
+    {
+        $this->contactPhones = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -106,5 +112,10 @@ class Contact
     public function setContactPhones(Collection $contactPhones): void
     {
         $this->contactPhones = $contactPhones;
+    }
+
+    public function removeContactPhone(ContactPhone $contactPhone): void
+    {
+        $this->contactPhones->removeElement($contactPhone);
     }
 }
