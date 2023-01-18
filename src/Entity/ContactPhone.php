@@ -19,7 +19,7 @@ class ContactPhone
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
-    #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'contactProfilePhoto')]
+    #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'contactPhones')]
     #[ORM\JoinColumn(name: 'contact_id', referencedColumnName: 'id')]
     private Contact $contact;
 

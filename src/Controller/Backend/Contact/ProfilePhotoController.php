@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProfilePhotoController extends AbstractController
 {
-    #[Route('/contacts/profile-photo/{id}/create', requirements: ['id' => "\d+"], name: 'backend.contacts.profilePhoto.create', methods: ['POST'])]
+    #[Route('/contacts/{id}/profile-photo//create', requirements: ['id' => "\d+"], name: 'backend.contacts.profilePhoto.create', methods: ['POST'])]
     public function create(int $id, EntityManagerInterface $em, ParameterBagInterface $parameters, Request $request): Response
     {
         /** @var Contact $contact */
@@ -59,5 +59,20 @@ class ProfilePhotoController extends AbstractController
         return $this->render('backend/contacts/create.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/contacts/{id}/profile-photo/{id2}', requirements: ['id' => "\d+"], name: 'backend.contacts.profilePhoto.delete', methods: ['DELETE'])]
+    public function delete(EntityManagerInterface $em, int $id, int $id2): Response
+    {
+        $contact = $em->getRepository(Contact::class)->find($id);
+        if ($contact) {
+            $contact->setContactProfilePhoto(null);
+            $em->persist($contact);
+            $em->flush();
+        }
+
+        $this->addFlash('success', 'Contact successfully deleted!');
+
+        return $this->redirectToRoute('backend.contacts.index');
     }
 }

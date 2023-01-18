@@ -22,7 +22,7 @@ class Contact
     #[Assert\Length(min: 3, minMessage: 'Your first name must be at least {{ limit }} characters long')]
     private ?string $firstName = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
@@ -32,10 +32,10 @@ class Contact
     #[ORM\Column(options: ['default' => false])]
     private ?bool $favorite = null;
 
-    #[ORM\OneToOne(targetEntity: ContactProfilePhoto::class, mappedBy: 'contact', cascade: ['remove'], orphanRemoval: true)]
+    #[ORM\OneToOne(targetEntity: ContactProfilePhoto::class, mappedBy: 'contact', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private ?ContactProfilePhoto $contactProfilePhoto = null;
 
-    #[ORM\OneToMany(targetEntity: ContactPhone::class, mappedBy: 'contact', cascade: ['remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ContactPhone::class, mappedBy: 'contact', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $contactPhones;
 
     public function __construct()
@@ -109,8 +109,15 @@ class Contact
         return $this->contactPhones;
     }
 
-    public function setContactPhones(Collection $contactPhones): void
+    /**
+     * @param array<ContactPhone>|ArrayCollection $contactPhones
+     */
+    public function setContactPhones($contactPhones): void
     {
+        if (is_array($contactPhones)) {
+            $contactPhones = new ArrayCollection($contactPhones);
+        }
+
         $this->contactPhones = $contactPhones;
     }
 }
