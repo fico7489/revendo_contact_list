@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ContactRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -30,6 +31,9 @@ class Contact
 
     #[ORM\OneToOne(targetEntity: ContactProfilePhoto::class, mappedBy: 'contact', cascade: ['remove'])]
     private ?ContactProfilePhoto $contactProfilePhoto = null;
+
+    #[ORM\OneToMany(targetEntity: ContactPhone::class, mappedBy: 'contact')]
+    private Collection $contactPhones;
 
     public function getId(): ?int
     {
@@ -92,5 +96,15 @@ class Contact
     public function setContactProfilePhoto(?ContactProfilePhoto $contactProfilePhoto): void
     {
         $this->contactProfilePhoto = $contactProfilePhoto;
+    }
+
+    public function getContactPhones(): Collection
+    {
+        return $this->contactPhones;
+    }
+
+    public function setContactPhones(Collection $contactPhones): void
+    {
+        $this->contactPhones = $contactPhones;
     }
 }
