@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Vendor\Alice\Locator;
 
@@ -11,7 +13,7 @@ final class CustomOrderFilesLocator implements FixtureLocatorInterface
 {
     use IsAServiceTrait;
 
-    private $decoratedFixtureLocator;
+    private FixtureLocatorInterface $decoratedFixtureLocator;
 
     public function __construct(FixtureLocatorInterface $decoratedFixtureLocator)
     {
@@ -32,14 +34,15 @@ final class CustomOrderFilesLocator implements FixtureLocatorInterface
         return $files;
     }
 
-    private function clearContactProfilePhotos(){
+    private function clearContactProfilePhotos(): void
+    {
         $finder = Finder::create();
 
         $finder->in('public/uploads/contact-profile-photos')->depth(0);
         $items = \iterator_to_array($finder);
 
         $filesystem = new Filesystem();
-        foreach ($items as $path => $item){
+        foreach ($items as $path => $item) {
             $filesystem->remove($path);
         }
     }

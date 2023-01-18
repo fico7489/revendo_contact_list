@@ -10,6 +10,7 @@
             <th scope="col">Image</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
+            <th scope="col">Phones</th>
             <th scope="col">Favorite</th>
             <th scope="col">Actions</th>
         </tr>
@@ -27,6 +28,14 @@
                 </td>
                 <td>{{ contact.firstName }} {{ contact.lastName }}</td>
                 <td>{{ contact.getEmail }}</td>
+                <td>
+                    {% for contactPhone in contact.contactPhones %}
+                        <li>
+                            {{ contactPhone.label }}:
+                            <span class = "text-secondary"> {{ contactPhone.phone }}</span>
+                        </li>
+                    {% endfor %}
+                </td>
                 <td>
                     {% if contact.isFavorite %}
                         <i class="bi bi-heart-fill"></i>

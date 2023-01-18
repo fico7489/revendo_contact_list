@@ -11,3 +11,8 @@ App\Entity\ContactProfilePhoto:
     mimeType: <mimeType()>
     size: <randomNumber()>
     contact: '@contact_<current()>'
+App\Entity\ContactPhone:
+  contact_phone_{1..50}:
+    label: <word()>
+    phone: <e164PhoneNumber()>
+    contact: '@contact_<numberBetween(1, 20)>'
