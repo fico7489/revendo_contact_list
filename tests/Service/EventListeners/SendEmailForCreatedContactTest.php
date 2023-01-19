@@ -2,7 +2,7 @@
 
 // tests/Service/NewsletterGeneratorTest.php
 
-namespace App\Tests\EventListeners;
+namespace App\Tests\Service\EventListeners;
 
 use App\Entity\Contact;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -30,11 +30,12 @@ class SendEmailForCreatedContactTest extends KernelTestCase
         $em->persist($contact);
         $em->flush();
 
-        $this->assertEmailCount(1);
-
         $emails = $this->getMailerMessages();
+
         /** @var TemplatedEmail $email */
         $email = $emails[0];
+
+        $this->assertEmailCount(1);
         $this->assertEquals('test@test.com', $email->getTo()[0]->toString());
     }
 }

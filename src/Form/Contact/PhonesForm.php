@@ -16,9 +16,6 @@ class PhonesForm extends AbstractType
             'entry_type' => PhoneForm::class,
             'allow_add' => true,
             'allow_delete' => true,
-            'entry_options' => [
-                // 'label' => false
-            ],
         ]);
     }
 
