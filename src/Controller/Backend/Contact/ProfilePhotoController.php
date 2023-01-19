@@ -8,7 +8,6 @@ use App\Form\Contact\ProfilePhotoForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,46 +24,44 @@ class ProfilePhotoController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Contact $contact */
             $contact = $form->getData();
 
-            if ($contact instanceof Contact) {
-                /* @var \Symfony\Component\HttpFoundation\File\UploadedFile $profilePhotoFile */
-                $profilePhotoFile = $form->get('profilePhoto')->getData();
+            /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $profilePhotoFile */
+            $profilePhotoFile = $form->get('profilePhoto')->getData();
 
-                $contactProfilePhoto = new ContactProfilePhoto();
-                if ($profilePhotoFile instanceof UploadedFile) {
-                    $clientOriginalName = $profilePhotoFile->getClientOriginalName();
+            $contactProfilePhoto = new ContactProfilePhoto();
 
-                    $contactProfilePhoto->setContact($contact);
-                    $contactProfilePhoto->setMimeType((string) $profilePhotoFile->getMimeType());
-                    $contactProfilePhoto->setSize((int) $profilePhotoFile->getSize());
-                    $contactProfilePhoto->setPath((string) $clientOriginalName);
-                    $contactProfilePhoto->setName((string) $clientOriginalName);
+            $clientOriginalName = $profilePhotoFile->getClientOriginalName();
 
-                    /** @var string $uploadDirectory */
-                    $uploadDirectory = $parameters->get('contact_profile_photos_directory');
-                    $fileMoved = $profilePhotoFile->move($uploadDirectory, $clientOriginalName);
+            $contactProfilePhoto->setContact($contact);
+            $contactProfilePhoto->setMimeType((string) $profilePhotoFile->getMimeType());
+            $contactProfilePhoto->setSize((int) $profilePhotoFile->getSize());
+            $contactProfilePhoto->setPath((string) $clientOriginalName);
+            $contactProfilePhoto->setName((string) $clientOriginalName);
 
-                    $em->persist($contactProfilePhoto);
-                    $em->flush();
-                }
+            /** @var string $uploadDirectory */
+            $uploadDirectory = $parameters->get('contact_profile_photos_directory');
+            $profilePhotoFile->move($uploadDirectory, $clientOriginalName);
 
-                $this->addFlash('success', 'Contact profile photo successfully created!');
+            $em->persist($contactProfilePhoto);
+            $em->flush();
 
-                return $this->redirectToRoute('backend.contacts.edit', ['id' => $contact->getId()]);
-            }
+            $this->addFlash('success', 'Contact profile photo successfully created!');
+
+            return $this->redirectToRoute('backend.contacts.edit', ['id' => $contact->getId()]);
         }
-        // TODO show error
 
-        return $this->render('backend/contacts/create.html.twig', [
-            'form' => $form,
-        ]);
+        $this->addFlash('error', 'Validation error!');
+
+        return $this->redirectToRoute('backend.contacts.edit', ['id' => $contact->getId()]);
     }
 
     #[Route('/contacts/{id}/profile-photo/{id2}', requirements: ['id' => "\d+"], name: 'backend.contacts.profilePhoto.delete', methods: ['DELETE'])]
     public function delete(EntityManagerInterface $em, int $id, int $id2): Response
     {
         $contact = $em->getRepository(Contact::class)->find($id);
+
         if ($contact) {
             $contact->setContactProfilePhoto(null);
             $em->persist($contact);

@@ -104,7 +104,10 @@ class Contact
         $this->contactProfilePhoto = $contactProfilePhoto;
     }
 
-    public function getContactPhones(): Collection
+    /**
+     * @return Collection<ContactPhone> $contactPhones
+     */
+    public function getContactPhones()
     {
         return $this->contactPhones;
     }

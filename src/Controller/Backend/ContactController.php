@@ -15,12 +15,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends AbstractController
 {
-    #[Route('/contacts', name: 'backend.contacts.index', methods: ['GET'])]
-    public function index(EntityManagerInterface $em, Request $request, ContactRepository $contactRepository): Response
+    private ContactRepository $contactRepository;
+
+    public function __construct(ContactRepository $contactRepository)
     {
-        $q = $request->get('q');
-        $q = is_string($q) ? $q : '';
-        $contacts = $contactRepository->findBySearchQuery($q);
+        $this->contactRepository = $contactRepository;
+    }
+
+    #[Route('/contacts', name: 'backend.contacts.index', methods: ['GET'])]
+    public function index(Request $request): Response
+    {
+        $q = is_string($q = $request->get('q')) ? $q : '';
+        $contacts = $this->contactRepository->findBySearchQuery($q);
 
         return $this->render('backend/contacts/index.html.twig', [
             'contacts' => $contacts,
@@ -28,9 +34,9 @@ class ContactController extends AbstractController
     }
 
     #[Route('/contacts/{id}', requirements: ['id' => "\d+"], name: 'backend.contacts.show', methods: ['GET'])]
-    public function show(EntityManagerInterface $em, int $id): Response
+    public function show(int $id): Response
     {
-        $contact = $em->getRepository(Contact::class)->find($id);
+        $contact = $this->contactRepository->find($id);
 
         return $this->render('backend/contacts/show.html.twig', [
             'contact' => $contact,
@@ -45,12 +51,11 @@ class ContactController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Contact $contact */
             $contact = $form->getData();
 
-            if ($contact instanceof Contact) {
-                $em->persist($contact);
-                $em->flush();
-            }
+            $em->persist($contact);
+            $em->flush();
 
             $this->addFlash('success', 'Contact successfully created!');
 
@@ -65,7 +70,7 @@ class ContactController extends AbstractController
     #[Route('/contacts/{id}/edit', requirements: ['id' => "\d+"], name: 'backend.contacts.edit', methods: ['GET', 'PATCH'])]
     public function edit(EntityManagerInterface $em, Request $request, int $id): Response
     {
-        $contact = $em->getRepository(Contact::class)->find($id);
+        $contact = $this->contactRepository->find($id);
 
         $form = $this->createForm(ContactForm::class, $contact);
         $formContactProfilePhoto = $this->createForm(ProfilePhotoForm::class, $contact, ['method' => 'POST']);
@@ -73,13 +78,12 @@ class ContactController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Contact $contact */
             $contact = $form->getData();
 
-            if ($contact instanceof Contact) {
-                $contact->setFavorite($form->get('favorite')->isSubmitted());
-                $em->persist($contact);
-                $em->flush();
-            }
+            $contact->setFavorite($form->get('favorite')->isSubmitted());
+            $em->persist($contact);
+            $em->flush();
 
             $this->addFlash('success', 'Contact successfully updated!');
 
@@ -97,7 +101,8 @@ class ContactController extends AbstractController
     #[Route('/contacts/{id}', requirements: ['id' => "\d+"], name: 'backend.contacts.delete', methods: ['DELETE'])]
     public function delete(EntityManagerInterface $em, int $id): Response
     {
-        $contact = $em->getRepository(Contact::class)->find($id);
+        $contact = $this->contactRepository->find($id);
+
         if ($contact) {
             $em->remove($contact);
             $em->flush();
