@@ -14,6 +14,7 @@ services:
     build: ./.docker/php
     volumes:
       - ./:/var/www/html
+
   mysql:
     container_name: REVENDO_mysql
     build: ./.docker/mysql
@@ -27,11 +28,32 @@ services:
       - ./:/app
     ports:
       - "33320:3306"
+
   mailhog:
     container_name: REVENDO_mailhog
     build: ./.docker/mailhog
     ports:
       - "8502:8025"
 
+  elasticsearch:
+    container_name: REVENDO_elasticsearch
+    build: ./.docker/elasticsearch
+    ports: [ '9220:9200', '9330:9300' ]
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - 'es-data:/usr/share/elasticsearch/data'
+
+  kibana:
+    container_name: REVENDO_kibana
+    build: ./.docker/kibana
+    ports: [ '5620:5601' ]
+    environment:
+      SERVER_NAME: localhost
+      ELASTICSEARCH_URL: http://REVENDO_elasticsearch:9200
+    depends_on: [ 'elasticsearch' ]
+
 volumes:
   db-data:
+  es-data:
+
