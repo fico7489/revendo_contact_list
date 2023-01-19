@@ -8,7 +8,7 @@ App\Entity\ContactProfilePhoto:
   contact_profile_photo_{1..20}:
     name: <lexify()>
     path: <contactProfilePhotoName()>
-    mimeType: <mimeType()>
+    mimeType: 'image/jpeg'
     size: <randomNumber()>
     contact: '@contact_<current()>'
 App\Entity\ContactPhone:

@@ -1,7 +1,9 @@
 when@dev:
     parameters:
+        contact_profile_photos_url: /uploads/contacts/
         contact_profile_photos_directory: '%kernel.project_dir%/public/uploads/contacts/'
 
 when@test:
     parameters:
+        contact_profile_photos_url: /uploads/contacts-testing/
         contact_profile_photos_directory: '%kernel.project_dir%/public/uploads/contacts-testing/'

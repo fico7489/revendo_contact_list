@@ -37,8 +37,8 @@ class ProfilePhotoController extends AbstractController
             $contactProfilePhoto->setContact($contact);
             $contactProfilePhoto->setMimeType((string) $profilePhotoFile->getMimeType());
             $contactProfilePhoto->setSize((int) $profilePhotoFile->getSize());
+            $contactProfilePhoto->setName((string) $profilePhotoFile->getClientOriginalName());
             $contactProfilePhoto->setPath((string) $clientOriginalName);
-            $contactProfilePhoto->setName((string) $clientOriginalName);
 
             /** @var string $uploadDirectory */
             $uploadDirectory = $parameters->get('contact_profile_photos_directory');

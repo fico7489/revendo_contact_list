@@ -15,7 +15,7 @@ class ProfilePhotoForm extends AbstractType
     {
         $builder->add('profilePhoto', FileType::class, [
             'mapped' => false,
-            'required' => false,
+            'required' => true,
 
             'constraints' => [
                 new Image([

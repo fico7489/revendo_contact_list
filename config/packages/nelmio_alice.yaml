@@ -10,3 +10,4 @@ when@dev: &dev
             - 'sha1'
 
 when@test: *dev
+

@@ -3,7 +3,7 @@
 
     <div>
         {% if contact.getContactProfilePhoto %}
-            Current Profile Photo<img src="{{ app.request.getBaseURL() }}/uploads/contact-profile-photos/{{ contact.getContactProfilePhoto.getPath }}" style="width: 100px;"/>
+            Current Profile Photo: <img src="{{ contact_profile_photos_url }}{{ contact.getContactProfilePhoto.getPath }}" style="width: 100px;"/>
 
             <hr/>
 
