@@ -52,6 +52,9 @@ class ContactRepository extends ServiceEntityRepository
      */
     public function findBySearchQuery(bool $favorite, ?string $q)
     {
+        $query = new \Elastica\Query();
+        $query->addSort(['_id' => ['order' => 'desc']]);
+
         $boolQuery = new BoolQuery();
 
         if (null != $q) {
@@ -74,8 +77,9 @@ class ContactRepository extends ServiceEntityRepository
             $boolQuery->addMust($fieldQuery);
         }
 
+        $query->setQuery($boolQuery);
         /** @var Contact[] $results */
-        $results = $this->finder->find($boolQuery);
+        $results = $this->finder->find($query);
 
         return $results;
     }
