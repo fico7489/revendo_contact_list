@@ -32,7 +32,7 @@ class ProfilePhotoController extends AbstractController
 
             $contactProfilePhoto = new ContactProfilePhoto();
 
-            $clientOriginalName = $profilePhotoFile->getClientOriginalName();
+            $clientOriginalName = sha1((string) time()).'-'.$profilePhotoFile->getClientOriginalName();
 
             $contactProfilePhoto->setContact($contact);
             $contactProfilePhoto->setMimeType((string) $profilePhotoFile->getMimeType());
