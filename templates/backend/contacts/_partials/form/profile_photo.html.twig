@@ -1,18 +1,11 @@
 <fieldset class="border p-2">
     <legend class="w-auto">Profile photo</legend>
 
-    {{ form_start(formContactProfilePhoto, {action:path('backend.contacts.profilePhoto.create', {id : contact.getId })}) }}
-    {{ form_widget(formContactProfilePhoto) }}
-
-    <!-- Submit button -->
-    <button type="submit" class="btn btn-primary btn-block">Upload New Photo</button>
-    {{ form_end(formContactProfilePhoto) }}
-
-    <hr/>
-
     <div>
         {% if contact.getContactProfilePhoto %}
             Current Profile Photo<img src="{{ app.request.getBaseURL() }}/uploads/contact-profile-photos/{{ contact.getContactProfilePhoto.getPath }}" style="width: 100px;"/>
+
+            <hr/>
 
             <form action="{{ url('backend.contacts.profilePhoto.delete', {id : contact.getId, id2 : contact.getContactProfilePhoto.getId}) }}" method="post" id="delete-{{ contact.getId }}">
                 <input type="hidden" name="_method" value="DELETE"/>
@@ -20,7 +13,12 @@
                 <button type="submit" class="btn btn-primary btn-block">Remove Profile Photo</button>
             </form>
         {% else %}
-            Profile photo does not exists
+            {{ form_start(formContactProfilePhoto, {action:path('backend.contacts.profilePhoto.create', {id : contact.getId })}) }}
+            {{ form_widget(formContactProfilePhoto) }}
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block">Upload New Photo</button>
+            {{ form_end(formContactProfilePhoto) }}
         {% endif %}
     </div>
 </fieldset>

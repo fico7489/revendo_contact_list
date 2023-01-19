@@ -66,9 +66,13 @@ class ProfilePhotoController extends AbstractController
             $contact->setContactProfilePhoto(null);
             $em->persist($contact);
             $em->flush();
+
+            $this->addFlash('success', 'Contact successfully deleted!');
+
+            return $this->redirectToRoute('backend.contacts.index');
         }
 
-        $this->addFlash('success', 'Contact successfully deleted!');
+        $this->addFlash('success', 'Unknown contact!');
 
         return $this->redirectToRoute('backend.contacts.index');
     }

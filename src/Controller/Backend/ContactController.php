@@ -59,7 +59,7 @@ class ContactController extends AbstractController
 
             $this->addFlash('success', 'Contact successfully created!');
 
-            return $this->redirectToRoute('backend.contacts.index');
+            return $this->redirectToRoute('backend.contacts.edit', ['id' => $contact->getId()]);
         }
 
         return $this->render('backend/contacts/create.html.twig', [
@@ -87,7 +87,7 @@ class ContactController extends AbstractController
 
             $this->addFlash('success', 'Contact successfully updated!');
 
-            return $this->redirectToRoute('backend.contacts.index');
+            return $this->redirectToRoute('backend.contacts.edit', ['id' => $contact->getId()]);
         }
 
         return $this->render('backend/contacts/edit.html.twig', [
