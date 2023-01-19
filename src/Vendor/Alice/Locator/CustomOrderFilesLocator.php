@@ -6,6 +6,7 @@ namespace App\Vendor\Alice\Locator;
 
 use Hautelook\AliceBundle\FixtureLocatorInterface;
 use Nelmio\Alice\IsAServiceTrait;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -14,10 +15,12 @@ final class CustomOrderFilesLocator implements FixtureLocatorInterface
     use IsAServiceTrait;
 
     private FixtureLocatorInterface $decoratedFixtureLocator;
+    private ParameterBagInterface $parameters;
 
-    public function __construct(FixtureLocatorInterface $decoratedFixtureLocator)
+    public function __construct(FixtureLocatorInterface $decoratedFixtureLocator, ParameterBagInterface $parameters)
     {
         $this->decoratedFixtureLocator = $decoratedFixtureLocator;
+        $this->parameters = $parameters;
     }
 
     /**
@@ -38,7 +41,9 @@ final class CustomOrderFilesLocator implements FixtureLocatorInterface
     {
         $finder = Finder::create();
 
-        $finder->in('public/uploads/contact-profile-photos')->depth(0);
+        /** @var string $uploadDirectory */
+        $uploadDirectory = $this->parameters->get('contact_profile_photos_directory');
+        $finder->in($uploadDirectory)->depth(0);
         $items = \iterator_to_array($finder);
 
         $filesystem = new Filesystem();
