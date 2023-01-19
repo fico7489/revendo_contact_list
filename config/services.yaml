@@ -55,3 +55,11 @@ services:
 
     # Replaces the default file locator used
     hautelook_alice.locator: '@App\Vendor\Alice\Locator\CustomOrderFilesLocator'
+
+    App\Repository\ContactRepository:
+        tags: ['controller.service_arguments']
+        public: true
+        arguments:
+            - '@fos_elastica.finder.contact'
+
+

@@ -5,6 +5,10 @@ namespace App\Repository;
 use App\Entity\Contact;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Elastica\Query\BoolQuery;
+use Elastica\Query\MatchQuery;
+use Elastica\Query\MultiMatch;
+use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
 
 /**
  * @extends ServiceEntityRepository<Contact>
@@ -16,8 +20,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ContactRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private PaginatedFinderInterface $finder;
+
+    public function __construct(PaginatedFinderInterface $finder, ManagerRegistry $registry)
     {
+        $this->finder = $finder;
+
         parent::__construct($registry, Contact::class);
     }
 
@@ -44,24 +52,30 @@ class ContactRepository extends ServiceEntityRepository
      */
     public function findBySearchQuery(bool $favorite, ?string $q)
     {
-        $queryBuilder = $this->createQueryBuilder('c')
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(PHP_INT_MAX);
+        $boolQuery = new BoolQuery();
 
         if (null != $q) {
-            $queryBuilder
-                ->andWhere('c.firstName LIKE :q')
-                ->orWhere('c.lastName LIKE :q')
-                ->setParameter('q', '%'.$q.'%');
+            $match = new MultiMatch();
+            $match->setFuzziness(1);
+            $match->setQuery($q);
+            $match->setOperator('AND');
+            $match->setFields([
+                'firstName',
+                'lastName',
+                'email',
+            ]);
+
+            $boolQuery->addShould($match);
         }
 
         if ($favorite) {
-            $queryBuilder
-                ->andWhere('c.favorite = true');
+            $fieldQuery = new MatchQuery();
+            $fieldQuery->setField('favorite', true);
+            $boolQuery->addMust($fieldQuery);
         }
 
         /** @var Contact[] $results */
-        $results = $queryBuilder->getQuery()->getResult();
+        $results = $this->finder->find($boolQuery);
 
         return $results;
     }
