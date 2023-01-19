@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProfilePhotoController extends AbstractController
 {
-    #[Route('/contacts/{id}/profile-photo//create', requirements: ['id' => "\d+"], name: 'backend.contacts.profilePhoto.create', methods: ['POST'])]
+    #[Route('/contacts/{id}/profile-photo/create', requirements: ['id' => "\d+"], name: 'backend.contacts.profilePhoto.create', methods: ['POST'])]
     public function create(int $id, EntityManagerInterface $em, ParameterBagInterface $parameters, Request $request): Response
     {
         /** @var Contact $contact */
