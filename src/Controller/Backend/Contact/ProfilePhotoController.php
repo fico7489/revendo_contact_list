@@ -57,8 +57,8 @@ class ProfilePhotoController extends AbstractController
         return $this->redirectToRoute('backend.contacts.edit', ['id' => $contact->getId()]);
     }
 
-    #[Route('/contacts/{id}/profile-photo/{id2}', requirements: ['id' => "\d+"], name: 'backend.contacts.profilePhoto.delete', methods: ['DELETE'])]
-    public function delete(EntityManagerInterface $em, int $id, int $id2): Response
+    #[Route('/contacts/{id}/profile-photo/{idProfilePhoto}', requirements: ['id' => "\d+", 'idProfilePhoto' => "\d+"], name: 'backend.contacts.profilePhoto.delete', methods: ['DELETE'])]
+    public function delete(EntityManagerInterface $em, int $id, int $idProfilePhoto): Response
     {
         $contact = $em->getRepository(Contact::class)->find($id);
 
@@ -69,7 +69,7 @@ class ProfilePhotoController extends AbstractController
 
             $this->addFlash('success', 'Contact successfully deleted!');
 
-            return $this->redirectToRoute('backend.contacts.index');
+            return $this->redirectToRoute('backend.contacts.edit', ['id' => $contact->getId()]);
         }
 
         $this->addFlash('success', 'Unknown contact!');

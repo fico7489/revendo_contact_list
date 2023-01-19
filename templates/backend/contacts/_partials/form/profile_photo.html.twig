@@ -7,7 +7,7 @@
 
             <hr/>
 
-            <form action="{{ url('backend.contacts.profilePhoto.delete', {id : contact.getId, id2 : contact.getContactProfilePhoto.getId}) }}" method="post" id="delete-{{ contact.getId }}">
+            <form action="{{ url('backend.contacts.profilePhoto.delete', {id : contact.getId, idProfilePhoto : contact.getContactProfilePhoto.getId}) }}" method="post" id="delete-{{ contact.getId }}">
                 <input type="hidden" name="_method" value="DELETE"/>
 
                 <button type="submit" class="btn btn-primary btn-block">Remove Profile Photo</button>
