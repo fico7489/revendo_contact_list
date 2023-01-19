@@ -20,28 +20,15 @@
             <tr>
                 <td scope="row">{{ contact.getId }}</td>
                 <td>
-                    {% if contact.getContactProfilePhoto %}
-                        <img src="{{ app.request.getBaseURL() }}/uploads/contact-profile-photos/{{ contact.contactProfilePhoto.getPath() }}" alt="" class="img-thumbnail" style="width: 128px;">
-                    {% else %}
-                        <img src="{{ app.request.getBaseURL() }}/uploads/contact-profile-photos/default/default.png" alt="" class="img-thumbnail" style="width: 128px;">
-                    {% endif %}
+                    {{ include('backend/contacts/_partials/profile_photo.html.twig') }}
                 </td>
                 <td>{{ contact.firstName }} {{ contact.lastName }}</td>
                 <td>{{ contact.getEmail }}</td>
                 <td>
-                    {% for contactPhone in contact.contactPhones %}
-                        <li>
-                            {{ contactPhone.label }}:
-                            <span class = "text-secondary"> {{ contactPhone.phone }}</span>
-                        </li>
-                    {% endfor %}
+                    {{ include('backend/contacts/_partials/contact_phones.html.twig') }}
                 </td>
                 <td>
-                    {% if contact.getFavorite %}
-                        <i class="bi bi-heart-fill"></i>
-                    {% else %}
-                        <i class="bi bi-heart"></i>
-                    {% endif %}
+                    {{ include('backend/contacts/_partials/favorite_icon.html.twig') }}
                 </td>
                 <td>
                     <a href="{{ url('backend.contacts.show', {id : contact.getId}) }}">

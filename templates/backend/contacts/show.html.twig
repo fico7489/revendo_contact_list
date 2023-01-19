@@ -1,11 +1,51 @@
 {% extends 'backend/base.html.twig' %}
 
 {% block body %}
-    <h5 class="card-title">View Contact</h5>
+<h5 class="card-title">View Contact</h5>
 
-    #{{ contact.getId }}<br/>
-    {{ contact.firstName }}<br/>
-    {{ contact.lastName }}<br/>
-    {{ contact.email }}<br/>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tr>
+        <td scope="col">#</td>
+        <td scope="col">{{ contact.getId }}</td>
+    </tr>
+    <tr>
+        <td scope="col">First Name</td>
+        <td scope="col">{{ contact.firstName }}</td>
+    </tr>
+    <tr>
+        <td scope="col">Last Name</td>
+        <td scope="col">{{ contact.lastName }}</td>
+    </tr>
+    <tr>
+        <td scope="col">Email</td>
+        <td scope="col">{{ contact.email }}</td>
+    </tr>
+    <tr>
+        <td scope="col">Is Favorite</td>
+        <td scope="col">
+            {{ include('backend/contacts/_partials/favorite_icon.html.twig') }}
+        </td>
+    </tr>
+    <tr>
+        <td scope="col">Profile Photo</td>
+        <td scope="col">
+            {{ include('backend/contacts/_partials/profile_photo.html.twig') }}
+        </td>
+    </tr>
+    <tr>
+        <td scope="col">Contact Phones</td>
+        <td scope="col">
+            {{ include('backend/contacts/_partials/contact_phones.html.twig') }}
+        </td>
+    </tr>
+    <tbody>
+    </tbody>
+</table>
 
 {% endblock %}

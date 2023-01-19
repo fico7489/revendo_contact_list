@@ -1,0 +1,6 @@
+{% for contactPhone in contact.contactPhones %}
+<li>
+    {{ contactPhone.label }}:
+    <span class = "text-secondary"> {{ contactPhone.phone }}</span>
+</li>
+{% endfor %}
