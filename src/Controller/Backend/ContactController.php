@@ -26,7 +26,9 @@ class ContactController extends AbstractController
     public function index(Request $request): Response
     {
         $q = is_string($q = $request->get('q')) ? $q : '';
-        $contacts = $this->contactRepository->findBySearchQuery($q);
+        $favorite = (bool) (('1' == $request->get('favorite')) ? 1 : 0);
+
+        $contacts = $this->contactRepository->findBySearchQuery($favorite, $q);
 
         return $this->render('backend/contacts/index.html.twig', [
             'contacts' => $contacts,

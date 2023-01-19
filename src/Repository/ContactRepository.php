@@ -42,7 +42,7 @@ class ContactRepository extends ServiceEntityRepository
     /**
      * @return Contact[] Returns an array of Contact objects
      */
-    public function findBySearchQuery(?string $q)
+    public function findBySearchQuery(bool $favorite, ?string $q)
     {
         $queryBuilder = $this->createQueryBuilder('c')
             ->orderBy('c.id', 'ASC')
@@ -53,6 +53,11 @@ class ContactRepository extends ServiceEntityRepository
                 ->andWhere('c.firstName LIKE :q')
                 ->orWhere('c.lastName LIKE :q')
                 ->setParameter('q', '%'.$q.'%');
+        }
+
+        if ($favorite) {
+            $queryBuilder
+                ->andWhere('c.favorite = true');
         }
 
         /** @var Contact[] $results */
