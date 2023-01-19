@@ -23,9 +23,9 @@ class SendEmailForCreatedContact
         foreach ($ouw->getScheduledEntityInsertions() as $entity) {
             if ($entity instanceof Contact) {
                 $email = (new TemplatedEmail())
-                    ->from('hello@example.com')
-                    ->to('you@example.com')
-                    ->subject('Time for Symfony Mailer!')
+                    ->from('revendo@revendo.com')
+                    ->to((string) $entity->getEmail())
+                    ->subject('Your contact is created!')
                     ->htmlTemplate('emails/contact_created.html.twig')
                     ->context([
                         'contact' => $entity,
