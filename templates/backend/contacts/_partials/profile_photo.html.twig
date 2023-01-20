@@ -1,5 +1,5 @@
 {% if contact.getContactProfilePhoto %}
-    <img src="{{ app.request.getBaseURL() }}/uploads/contact-profile-photos/{{ contact.contactProfilePhoto.getPath() }}" alt="" class="img-thumbnail" style="width: 128px;">
+    <img src="{{ app.request.getBaseURL() }}/uploads/contacts/{{ contact.contactProfilePhoto.getPath() }}" alt="" class="img-thumbnail" style="width: 128px;">
 {% else %}
-    <img src="{{ app.request.getBaseURL() }}/uploads/contact-profile-photos/default/default.png" alt="" class="img-thumbnail" style="width: 128px;">
+    <img src="{{ app.request.getBaseURL() }}/uploads/contacts/default/default.png" alt="" class="img-thumbnail" style="width: 128px;">
 {% endif %}

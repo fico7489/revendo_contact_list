@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ContactRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource]
+#[ApiFilter(OrderFilter::class, properties: ['id', 'firstName'])]
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 class Contact
 {
