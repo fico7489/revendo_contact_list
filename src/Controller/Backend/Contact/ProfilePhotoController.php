@@ -6,6 +6,7 @@ use App\Entity\Contact;
 use App\Entity\ContactProfilePhoto;
 use App\Form\Contact\ProfilePhotoForm;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,11 +16,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfilePhotoController extends AbstractController
 {
     #[Route('/contacts/{id}/profile-photo/create', requirements: ['id' => "\d+"], name: 'backend.contacts.profilePhoto.create', methods: ['POST'])]
-    public function create(int $id, EntityManagerInterface $em, ParameterBagInterface $parameters, Request $request): Response
+    #[ParamConverter('id', class: Contact::class)]
+    public function create(Contact $contact, EntityManagerInterface $em, ParameterBagInterface $parameters, Request $request): Response
     {
-        /** @var Contact $contact */
-        $contact = $em->getRepository(Contact::class)->find($id);
-
         $form = $this->createForm(ProfilePhotoForm::class, $contact, ['method' => 'POST']);
 
         $form->handleRequest($request);
@@ -58,22 +57,16 @@ class ProfilePhotoController extends AbstractController
     }
 
     #[Route('/contacts/{id}/profile-photo/{idProfilePhoto}', requirements: ['id' => "\d+", 'idProfilePhoto' => "\d+"], name: 'backend.contacts.profilePhoto.delete', methods: ['DELETE'])]
-    public function delete(EntityManagerInterface $em, int $id, int $idProfilePhoto): Response
+    #[ParamConverter('id', class: Contact::class)]
+    #[ParamConverter('idProfilePhoto', class: ContactProfilePhoto::class)]
+    public function delete(EntityManagerInterface $em, Contact $contact, ContactProfilePhoto $contactProfilePhoto): Response
     {
-        $contact = $em->getRepository(Contact::class)->find($id);
+        $contact->setContactProfilePhoto(null);
+        $em->persist($contact);
+        $em->flush();
 
-        if ($contact) {
-            $contact->setContactProfilePhoto(null);
-            $em->persist($contact);
-            $em->flush();
+        $this->addFlash('success', 'Contact successfully deleted!');
 
-            $this->addFlash('success', 'Contact successfully deleted!');
-
-            return $this->redirectToRoute('backend.contacts.edit', ['id' => $contact->getId()]);
-        }
-
-        $this->addFlash('success', 'Unknown contact!');
-
-        return $this->redirectToRoute('backend.contacts.index');
+        return $this->redirectToRoute('backend.contacts.edit', ['id' => $contact->getId()]);
     }
 }

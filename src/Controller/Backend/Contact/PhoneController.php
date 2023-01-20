@@ -6,6 +6,7 @@ use App\Entity\Contact;
 use App\Form\Contact\PhonesForm;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,11 +15,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class PhoneController extends AbstractController
 {
     #[Route('/contacts/phone/{id}/create', requirements: ['id' => "\d+"], name: 'backend.contacts.phone.create', methods: ['POST'])]
-    public function create(int $id, EntityManagerInterface $em, Request $request): Response
+    #[ParamConverter('id', class: Contact::class)]
+    public function create(Contact $contact, EntityManagerInterface $em, Request $request): Response
     {
-        /** @var Contact $contact */
-        $contact = $em->getRepository(Contact::class)->find($id);
-
         $form = $this->createForm(PhonesForm::class, $contact, ['method' => 'POST']);
 
         $form->handleRequest($request);

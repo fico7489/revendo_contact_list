@@ -8,6 +8,7 @@ use App\Form\Contact\ProfilePhotoForm;
 use App\Form\ContactForm;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,10 +38,9 @@ class ContactController extends AbstractController
     }
 
     #[Route('/contacts/{id}', requirements: ['id' => "\d+"], name: 'backend.contacts.show', methods: ['GET'])]
-    public function show(int $id): Response
+    #[ParamConverter('id', class: Contact::class)]
+    public function show(Contact $contact): Response
     {
-        $contact = $this->contactRepository->find($id);
-
         return $this->render('backend/contacts/show.html.twig', [
             'contact' => $contact,
         ]);
@@ -71,10 +71,9 @@ class ContactController extends AbstractController
     }
 
     #[Route('/contacts/{id}/edit', requirements: ['id' => "\d+"], name: 'backend.contacts.edit', methods: ['GET', 'PATCH'])]
-    public function edit(EntityManagerInterface $em, Request $request, int $id): Response
+    #[ParamConverter('id', class: Contact::class)]
+    public function edit(EntityManagerInterface $em, Request $request, Contact $contact): Response
     {
-        $contact = $this->contactRepository->find($id);
-
         $form = $this->createForm(ContactForm::class, $contact);
         $formContactProfilePhoto = $this->createForm(ProfilePhotoForm::class, $contact, ['method' => 'POST']);
         $formContactPhones = $this->createForm(PhonesForm::class, $contact, ['method' => 'POST']);
@@ -102,14 +101,11 @@ class ContactController extends AbstractController
     }
 
     #[Route('/contacts/{id}', requirements: ['id' => "\d+"], name: 'backend.contacts.delete', methods: ['DELETE'])]
-    public function delete(EntityManagerInterface $em, int $id): Response
+    #[ParamConverter('id', class: Contact::class)]
+    public function delete(EntityManagerInterface $em, Contact $contact): Response
     {
-        $contact = $this->contactRepository->find($id);
-
-        if ($contact) {
-            $em->remove($contact);
-            $em->flush();
-        }
+        $em->remove($contact);
+        $em->flush();
 
         $this->addFlash('success', 'Contact successfully deleted!');
 
