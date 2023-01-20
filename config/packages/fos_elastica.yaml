@@ -20,4 +20,6 @@ fos_elastica:
                 model: App\Entity\Contact
                 provider: ~
                 finder: ~
+                elastica_to_model_transformer:
+                    ignore_missing: true
 
