@@ -35,6 +35,19 @@ class ContactController extends AbstractController
         ]);
     }
 
+    #[Route('/contacts/_partial', name: 'backend.contacts.indexPartial', methods: ['GET'])]
+    public function indexPartial(Request $request): Response
+    {
+        $q = is_string($q = $request->get('q')) ? $q : '';
+        $favorite = (bool) (('1' == $request->get('favorite')) ? 1 : 0);
+
+        $contacts = $this->contactRepository->findBySearchQuery($favorite, $q);
+
+        return $this->render('backend/contacts/_partials/index_table.html.twig', [
+            'contacts' => $contacts,
+        ]);
+    }
+
     #[Route('/contacts/{id}', requirements: ['id' => "\d+"], name: 'backend.contacts.show', methods: ['GET'])]
     public function show(int $id): Response
     {
