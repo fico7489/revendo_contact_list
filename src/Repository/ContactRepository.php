@@ -66,8 +66,8 @@ class ContactRepository extends ServiceEntityRepository
                 'firstName',
                 'lastName',
                 'email',
+                'contactPhones.phone',
             ]);
-
             $boolQuery->addShould($match);
         }
 
@@ -77,7 +77,11 @@ class ContactRepository extends ServiceEntityRepository
             $boolQuery->addMust($fieldQuery);
         }
 
-        $query->setQuery($boolQuery);
+        $query->setSize(100);
+        if ($boolQuery->count() > 0) {
+            $query->setQuery($boolQuery);
+        }
+
         /** @var Contact[] $results */
         $results = $this->finder->find($query);
 
