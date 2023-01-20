@@ -27,23 +27,11 @@ class ContactController extends AbstractController
     {
         $q = is_string($q = $request->get('q')) ? $q : '';
         $favorite = (bool) (('1' == $request->get('favorite')) ? 1 : 0);
+        $partial = (bool) (('1' == $request->get('partial')) ? 1 : 0);
 
         $contacts = $this->contactRepository->findBySearchQuery($favorite, $q);
 
-        return $this->render('backend/contacts/index.html.twig', [
-            'contacts' => $contacts,
-        ]);
-    }
-
-    #[Route('/contacts/_partial', name: 'backend.contacts.indexPartial', methods: ['GET'])]
-    public function indexPartial(Request $request): Response
-    {
-        $q = is_string($q = $request->get('q')) ? $q : '';
-        $favorite = (bool) (('1' == $request->get('favorite')) ? 1 : 0);
-
-        $contacts = $this->contactRepository->findBySearchQuery($favorite, $q);
-
-        return $this->render('backend/contacts/_partials/index_table.html.twig', [
+        return $this->render('backend/contacts/'.($partial ? '_partials/index_table' : 'index').'.html.twig', [
             'contacts' => $contacts,
         ]);
     }

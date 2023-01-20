@@ -29,7 +29,7 @@
                 favorite = favorite || 0
                 var q = $(this).val();
 
-                $.ajax('/contacts/_partial?favorite=' + favorite + '&q=' + q,
+                $.ajax('/contacts?partial=1&favorite=' + favorite + '&q=' + q,
                     {
                         success: function (html, status, xhr) {
                             $('.contacts-table-body').html(html);

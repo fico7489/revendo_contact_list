@@ -55,18 +55,20 @@ class ContactRepository extends ServiceEntityRepository
         $query = new Query();
         $query->addSort(['_id' => ['order' => 'desc']]);
 
-        $boolQuery = new BoolQuery();
+        $queryRoot = new BoolQuery();
 
         if ($q) {
+            $queryFilter = new BoolQuery();
+
             // search by prefix firstName
             $matchPhrase = new Query\MatchPhrasePrefix();
             $matchPhrase->setField('firstName', $q);
-            $boolQuery->addShould($matchPhrase);
+            $queryFilter->addShould($matchPhrase);
 
             // search by prefix lastName
             $matchPhrase = new Query\MatchPhrasePrefix();
             $matchPhrase->setField('lastName', $q);
-            $boolQuery->addShould($matchPhrase);
+            $queryFilter->addShould($matchPhrase);
 
             // multi match by all fields
             $multiMatch = new MultiMatch();
@@ -79,19 +81,22 @@ class ContactRepository extends ServiceEntityRepository
                 'email',
                 'contactPhones.phone',
             ]);
-            $boolQuery->addShould($multiMatch);
+            $queryFilter->addShould($multiMatch);
+
+            $queryRoot->addMust($queryFilter);
         }
 
         // get only favorites
         if ($favorite) {
-            $fieldQuery = new Query\Term();
+            $fieldQuery = new Query\MatchPhrase();
             $fieldQuery->setParam('favorite', true);
-            $boolQuery->addFilter($fieldQuery);
+
+            $queryRoot->addMust($fieldQuery);
         }
 
         $query->setSize(100);
-        if ($boolQuery->count() > 0) {
-            $query->setQuery($boolQuery);
+        if ($queryRoot->count() > 0) {
+            $query->setQuery($queryRoot);
         }
 
         /** @var Contact[] $results */
