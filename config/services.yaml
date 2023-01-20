@@ -28,11 +28,7 @@ services:
         tags:
             -
                 name: 'doctrine.event_listener'
-                # this is the only required option for the lifecycle listener tag
                 event: 'onFlush'
-
-                # listeners can define their priority in case multiple subscribers or listeners are associated
-                # to the same event (default priority = 0; higher numbers = listener is run earlier)
                 priority: 500
 
                 # you can also restrict listeners to a specific Doctrine connection
@@ -40,14 +36,8 @@ services:
     App\EventListener\RemoveFileForDeletedContact:
         tags:
             - name: 'doctrine.event_listener'
-                # this is the only required option for the lifecycle listener tag
               event: 'postRemove'
-
-                # listeners can define their priority in case multiple subscribers or listeners are associated
-                # to the same event (default priority = 0; higher numbers = listener is run earlier)
               priority: 500
-
-                # you can also restrict listeners to a specific Doctrine connection
               connection: 'default'
     App\Vendor\Alice\Locator\CustomOrderFilesLocator:
         arguments:

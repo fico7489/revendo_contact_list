@@ -5,8 +5,8 @@ namespace App\Repository;
 use App\Entity\Contact;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Elastica\Query;
 use Elastica\Query\BoolQuery;
-use Elastica\Query\MatchQuery;
 use Elastica\Query\MultiMatch;
 use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
 
@@ -52,41 +52,41 @@ class ContactRepository extends ServiceEntityRepository
      */
     public function findBySearchQuery(bool $favorite, ?string $q)
     {
-        $query = new \Elastica\Query();
+        $query = new Query();
         $query->addSort(['_id' => ['order' => 'desc']]);
 
         $boolQuery = new BoolQuery();
 
         if ($q) {
-            $match = new MultiMatch();
-            $match->setFuzziness(1);
-            $match->setQuery($q);
-            $match->setOperator('AND');
-            $match->setFields([
+            // search by prefix firstName
+            $matchPhrase = new Query\MatchPhrasePrefix();
+            $matchPhrase->setField('firstName', $q);
+            $boolQuery->addShould($matchPhrase);
+
+            // search by prefix lastName
+            $matchPhrase = new Query\MatchPhrasePrefix();
+            $matchPhrase->setField('lastName', $q);
+            $boolQuery->addShould($matchPhrase);
+
+            // multi match by all fields
+            $multiMatch = new MultiMatch();
+            $multiMatch->setFuzziness(1);
+            $multiMatch->setQuery($q);
+            $multiMatch->setPrefixLength(1);
+            $multiMatch->setFields([
                 'firstName',
                 'lastName',
                 'email',
                 'contactPhones.phone',
             ]);
-            $boolQuery->addShould($match);
-
-            $boolQuery->addShould((new MultiMatch())
-                ->setFields([
-                    'firstName',
-                    'lastName',
-                    'email',
-                    'contactPhones.phone',
-                ])
-                ->setType(MultiMatch::TYPE_CROSS_FIELDS)
-                ->setQuery($q)
-                ->setOperator('and')
-            );
+            $boolQuery->addShould($multiMatch);
         }
 
+        // get only favorites
         if ($favorite) {
-            $fieldQuery = new MatchQuery();
-            $fieldQuery->setField('favorite', true);
-            $boolQuery->addMust($fieldQuery);
+            $fieldQuery = new Query\Term();
+            $fieldQuery->setParam('favorite', true);
+            $boolQuery->addFilter($fieldQuery);
         }
 
         $query->setSize(100);
