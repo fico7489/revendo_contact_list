@@ -23,6 +23,8 @@
     <script>
         $(document).ready(function () {
             $('.search-form [name="q"]').on("input", function () {
+                $('.contacts-table-body').html('<img src="/assets/loader.gif"/>');
+
                 var favorite = '{{ app.request.get('favorite') }}';
                 favorite = favorite || 0
                 var q = $(this).val();
