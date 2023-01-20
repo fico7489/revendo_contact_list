@@ -57,7 +57,7 @@ class ContactRepository extends ServiceEntityRepository
 
         $boolQuery = new BoolQuery();
 
-        if (null != $q) {
+        if ($q) {
             $match = new MultiMatch();
             $match->setFuzziness(1);
             $match->setQuery($q);

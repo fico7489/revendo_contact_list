@@ -15,8 +15,29 @@
             <th scope="col">Actions</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="contacts-table-body">
         {{ include('backend/contacts/_partials/index_table.html.twig') }}
         </tbody>
     </table>
+
+    <script>
+        $(document).ready(function () {
+            $('.search-form [name="q"]').on("input", function () {
+                var favorite = '{{ app.request.get('favorite') }}';
+                favorite = favorite || 0
+                var q = $(this).val();
+
+                $.ajax('/contacts/_partial?favorite=' + favorite + '&q=' + q,
+                    {
+                        success: function (html, status, xhr) {
+                            $('.contacts-table-body').html(html);
+                        }
+                    });
+
+                return false;
+            });
+        });
+    </script>
+
 {% endblock %}
+
