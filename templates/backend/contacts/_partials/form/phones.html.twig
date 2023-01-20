@@ -1,7 +1,7 @@
 <fieldset class="border p-2">
     <legend class="w-auto">Contact phones</legend>
 
-    {{ form_start(formContactPhones, {action:path('backend.contacts.phone.create', {id : contact.getId })}) }}
+    {{ form_start(formContactPhones, {action:path('backend.contacts.phone.edit', {id : contact.getId })}) }}
 
     <ul class="contactPhones"
         data-index="{{ formContactPhones.contactPhones|length > 0 ? formContactPhones.contactPhones|last.vars.name + 1 : 0 }}"

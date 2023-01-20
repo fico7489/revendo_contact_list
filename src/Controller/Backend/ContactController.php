@@ -8,7 +8,7 @@ use App\Form\Contact\ProfilePhotoForm;
 use App\Form\ContactForm;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,7 +38,7 @@ class ContactController extends AbstractController
     }
 
     #[Route('/contacts/{id}', requirements: ['id' => "\d+"], name: 'backend.contacts.show', methods: ['GET'])]
-    #[ParamConverter('id', class: Contact::class)]
+    #[Entity('contact', options: ['id' => 'id'])]
     public function show(Contact $contact): Response
     {
         return $this->render('backend/contacts/show.html.twig', [
@@ -71,7 +71,7 @@ class ContactController extends AbstractController
     }
 
     #[Route('/contacts/{id}/edit', requirements: ['id' => "\d+"], name: 'backend.contacts.edit', methods: ['GET', 'PATCH'])]
-    #[ParamConverter('id', class: Contact::class)]
+    #[Entity('contact', options: ['id' => 'id'])]
     public function edit(EntityManagerInterface $em, Request $request, Contact $contact): Response
     {
         $form = $this->createForm(ContactForm::class, $contact);
@@ -101,7 +101,7 @@ class ContactController extends AbstractController
     }
 
     #[Route('/contacts/{id}', requirements: ['id' => "\d+"], name: 'backend.contacts.delete', methods: ['DELETE'])]
-    #[ParamConverter('id', class: Contact::class)]
+    #[Entity('contact', options: ['id' => 'id'])]
     public function delete(EntityManagerInterface $em, Contact $contact): Response
     {
         $em->remove($contact);
