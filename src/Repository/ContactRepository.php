@@ -69,6 +69,18 @@ class ContactRepository extends ServiceEntityRepository
                 'contactPhones.phone',
             ]);
             $boolQuery->addShould($match);
+
+            $boolQuery->addShould((new MultiMatch())
+                ->setFields([
+                    'firstName',
+                    'lastName',
+                    'email',
+                    'contactPhones.phone',
+                ])
+                ->setType(MultiMatch::TYPE_CROSS_FIELDS)
+                ->setQuery($q)
+                ->setOperator('and')
+            );
         }
 
         if ($favorite) {
