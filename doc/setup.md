@@ -5,8 +5,8 @@
 The versions of the environment where app is developed and tested:
 
  - Ubuntu 22.04.1 LTS
- - Docker 220.10.23
- - Docker compose 1.15.1
+ - Docker 20.10.23
+ - Docker compose 2.15.1
 
 #### Set up
 
