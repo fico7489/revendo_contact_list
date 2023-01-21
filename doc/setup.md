@@ -10,6 +10,10 @@ The versions of the environment where app is developed and tested:
 
 #### Set up
 
- - sudo docker compose up -d
-
-
+ - docker compose up -d
+ - sudo docker exec -it REVENDO_php sh
+   - php bin/console doctrine:migrations:migrate
+   - bin/console hautelook:fixtures:load
+   - php bin/console fos:elastica:populate
+ - GO TO: http://localhost:5002/
+ - thats it, enjoy!
