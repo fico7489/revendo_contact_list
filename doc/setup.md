@@ -10,6 +10,8 @@ The versions of the environment where app is developed and tested:
 
 #### Set up
 
+- git clone https://github.com/fico7489/revendo_contact_list
+- cd revendo_contact_list
 - docker compose up -d
 - sudo docker exec -it REVENDO_php sh
     - bin/console doctrine:migrations:migrate
