@@ -15,5 +15,12 @@ The versions of the environment where app is developed and tested:
     - bin/console doctrine:migrations:migrate
     - bin/console hautelook:fixtures:load
     - bin/console fos:elastica:populate
-- GO TO: http://localhost:5002/
+- GO TO: localhost:5002
 - thats it, enjoy!
+
+### Urls
+
+- App: localhost:5002
+- Kibana: localhost:5620
+- Mailhog: localhost:8502
+
