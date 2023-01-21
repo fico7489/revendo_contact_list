@@ -16,6 +16,9 @@
 - bin/console debug:router
 - bin/console hautelook:fixtures:load
 - bin/console fos:elastica:populate
+- composer recipes symfony/twig-bundle
+
+
 
 ### docker
 
