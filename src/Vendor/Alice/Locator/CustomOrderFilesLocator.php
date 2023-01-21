@@ -42,7 +42,7 @@ final class CustomOrderFilesLocator implements FixtureLocatorInterface
         $finder = Finder::create();
 
         /** @var string $uploadDirectory */
-        $uploadDirectory = $this->parameters->get('contact_profile_photos_directory');
+        $uploadDirectory = $this->parameters->get('app.contact_profile_photos_directory');
         $finder->in($uploadDirectory)->depth(0);
         $items = \iterator_to_array($finder);
 

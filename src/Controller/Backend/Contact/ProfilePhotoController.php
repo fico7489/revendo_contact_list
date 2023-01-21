@@ -40,7 +40,7 @@ class ProfilePhotoController extends AbstractController
             $contactProfilePhoto->setPath((string) $clientOriginalName);
 
             /** @var string $uploadDirectory */
-            $uploadDirectory = $parameters->get('contact_profile_photos_directory');
+            $uploadDirectory = $parameters->get('app.contact_profile_photos_directory');
             $profilePhotoFile->move($uploadDirectory, $clientOriginalName);
 
             $em->persist($contactProfilePhoto);

@@ -24,7 +24,7 @@ class RemoveFileForDeletedContact
             $filename = $entity->getName();
 
             /** @var string $uploadDirectory */
-            $uploadDirectory = $this->parameters->get('contact_profile_photos_directory');
+            $uploadDirectory = $this->parameters->get('app.contact_profile_photos_directory');
             $filesystem = new Filesystem();
             $filesystem->remove($uploadDirectory.'/'.$filename);
         }

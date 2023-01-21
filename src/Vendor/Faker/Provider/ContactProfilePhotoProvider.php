@@ -27,7 +27,7 @@ final class ContactProfilePhotoProvider extends BaseProvider
         $name = $pathBase.'-'.sha1(time().self::randomDigit()).'.jpg';
 
         /** @var string $uploadDirectory */
-        $uploadDirectory = $this->parameters->get('contact_profile_photos_directory');
+        $uploadDirectory = $this->parameters->get('app.contact_profile_photos_directory');
         $pathUpload = $uploadDirectory.$name;
 
         $filesystem = new Filesystem();

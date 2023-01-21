@@ -3,7 +3,8 @@ twig:
     form_themes:
         - bootstrap_5_layout.html.twig
     globals:
-        contact_profile_photos_url: '%contact_profile_photos_url%'
+        custom:
+            contact_profile_photos_url: '%app.contact_profile_photos_url%'
 when@test:
     twig:
         strict_variables: true
