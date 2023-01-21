@@ -16,8 +16,30 @@
 - bin/console hautelook:fixtures:load
 - php bin/console fos:elastica:populate
 
+
+### docker 
+- Remove dangling images
+   -  **docker image prune**
+ - Show all images: 
+   - **sudo docker image ls | sort**
+ - Show all stopped containers
+   - **docker ps --filter status="exited" | sort -k 2**
+ - Show all volumes
+   - **docker volume ls**
+ - Remove container
+   - **docker container rm SHA**
+ - Remove volume
+   - **docker volume rm SHA**
+
+
+
 ### other
 - api platform: https://api-platform.com/
 - alice: https://github.com/nelmio/alice
 - alice bundle: https://github.com/theofidry/AliceBundle
 - faker: https://fakerphp.github.io/formatters/
+
+
+
+
+

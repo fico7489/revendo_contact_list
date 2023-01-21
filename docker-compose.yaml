@@ -19,13 +19,10 @@ services:
     container_name: REVENDO_mysql
     build: ./.docker/mysql
     environment:
-      - "MYSQL_ROOT_PASSWORD=password"
-      - "MYSQL_DATABASE=revendo"
-      - "MYSQL_USER=user"
-      - "MYSQL_PASSWORD=password"
+      - "MYSQL_ROOT_PASSWORD=local"
     volumes:
-      - db-data:/var/lib/mysql
       - ./:/app
+      - db-data:/var/lib/mysql
     ports:
       - "33320:3306"
 
@@ -51,7 +48,7 @@ services:
     ports: [ '5620:5601' ]
     environment:
       SERVER_NAME: localhost
-      ELASTICSEARCH_URL: http://REVENDO_elasticsearch:9200
+      ELASTICSEARCH_URL: http://elasticsearch:9200
     depends_on: [ 'elasticsearch' ]
 
 volumes:
