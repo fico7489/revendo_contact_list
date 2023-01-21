@@ -7,7 +7,7 @@ in Web development and Symfony PHP framework .
 Here are the resources where you can find out about requirements for the app,
 notes on solution and useful commands and resources:
 
-* [Setup](docs/setup.md)
-* [Notes](docs/notes.md)
-* [Commands](docs/commands.md)
+* [Setup](doc/setup.md)
+* [Notes](doc/notes.md)
+* [Commands](doc/commands.md)
 
