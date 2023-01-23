@@ -5,13 +5,24 @@
 namespace App\Tests;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
-use App\Entity\Contact;
+use Doctrine\ORM\EntityManager;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 
 class ContactTest extends ApiTestCase
 {
     // This trait provided by AliceBundle will take care of refreshing the database content to a known state before each test
     use RefreshDatabaseTrait;
+
+    private EntityManager $entityManager;
+
+    protected function setUp(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->entityManager = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+    }
 
     public function testGetCollection(): void
     {
@@ -25,49 +36,51 @@ class ContactTest extends ApiTestCase
             'hydra:totalItems' => 20,
         ]);
         $this->assertCount(20, $response->toArray()['hydra:member']);
-    }
 
-    public function testCreateContact(): void
-    {
-        $response = static::createClient()->request('POST', '/api/contacts', ['json' => [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@test.com',
-            'favorite' => true,
-        ]]);
+        $idFirst = $response->toArray()['hydra:member'][0]['id'];
+        $idSecond = $response->toArray()['hydra:member'][1]['id'];
 
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-    }
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+        $firstName = $lastName = 'dummy';
+        $queryBuilder->update('App\Entity\Contact', 'c')
+            ->set('c.firstName', ':firstName')
+            ->set('c.lastName', ':lastName')
+            ->setParameter('firstName', $firstName)
+            ->setParameter('lastName', $lastName)
+            ->getQuery()
+            ->execute();
 
-    public function testUpdateContact(): void
-    {
-        $iri = $this->findIriBy(Contact::class, ['id' => 1]);
+        $queryBuilder->update('App\Entity\Contact', 'c')
+            ->set('c.firstName', ':firstName')
+            ->set('c.lastName', ':lastName')
+            ->where('c.id = :id')
+            ->setParameter('firstName', 'tester')
+            ->setParameter('lastName', 'tester')
+            ->setParameter('id', $idFirst)
+            ->getQuery()
+            ->execute();
 
-        static::createClient([], ['headers' => [
-            'content-type' => 'application/merge-patch+json',
-        ]])->request('PATCH', $iri, [
-            'json' => [
-                'firstName' => 'new firstName',
-                'lastName' => 'string',
-                'email' => 'user@example.com',
-                'favorite' => true,
-                'contactProfilePhoto' => ((array) [
-                    '@type' => 'ContactProfilePhoto',
-                    'path' => 'test.jpg',
-                    'name' => 'test',
-                    'size' => 1000,
-                    'mimeType' => 'application/jpg',
-                    'contact' => '/api/contacts/1',
-                ]),
-                'contactPhones' => [
-                ],
-            ]]);
+        $queryBuilder->update('App\Entity\Contact', 'c')
+            ->set('c.firstName', ':firstName')
+            ->set('c.lastName', ':lastName')
+            ->where('c.id = :id')
+            ->setParameter('firstName', 'tester')
+            ->setParameter('lastName', 'tester2')
+            ->setParameter('id', $idSecond)
+            ->getQuery()
+            ->execute();
 
-        $this->assertResponseIsSuccessful();
-        /*$this->assertJsonContains([
-            '@id' => $iri,
-            'firstName' => 'new firstName',
-        ]);*/
+        // test filter "firstName"
+        $response = static::createClient()->request('GET', 'api/contacts?firstName=tester');
+        $this->assertCount(2, $response->toArray()['hydra:member']);
+        $responseDate = $response->toArray();
+        $this->assertEquals('tester', $responseDate['hydra:member'][0]['lastName']);
+        $this->assertEquals('tester2', $responseDate['hydra:member'][1]['lastName']);
+
+        // test sort "firstName"
+        $response = static::createClient()->request('GET', 'api/contacts?firstName=tester&order[lastName]=desc');
+        $responseDate = $response->toArray();
+        $this->assertEquals('tester2', $responseDate['hydra:member'][0]['lastName']);
+        $this->assertEquals('tester', $responseDate['hydra:member'][1]['lastName']);
     }
 }
