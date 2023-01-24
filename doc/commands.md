@@ -18,8 +18,6 @@
 - bin/console fos:elastica:populate
 - composer recipes symfony/twig-bundle
 
-
-
 ### docker
 
 - Remove dangling images
@@ -34,6 +32,8 @@
     - **docker container rm {NAME}**
 - Remove volume
     - **docker volume rm {NAME}**
+- Stop all docker containers
+    - **docker stop $(docker ps -a -q)**
 
 ### other
 
@@ -41,6 +41,5 @@
 - alice: https://github.com/nelmio/alice
 - alice bundle: https://github.com/theofidry/AliceBundle
 - faker: https://fakerphp.github.io/formatters/
-
-
+- elasticsearch bundle: https://github.com/FriendsOfSymfony/FOSElasticaBundle
 
