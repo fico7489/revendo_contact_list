@@ -23,9 +23,11 @@
 - Remove dangling images
     - **docker image prune**
 - Show all images:
-    - **sudo docker image ls | sort**
+    - **docker image ls | sort**
 - Show all stopped containers
     - **docker ps --filter status="exited" | sort -k 2**
+- Show all stopped containers by name
+    - **docker container ls --filter status="exited" | grep 'revendo'**
 - Show all volumes
     - **docker volume ls**
 - Remove container
@@ -34,6 +36,13 @@
     - **docker volume rm {NAME}**
 - Stop all docker containers
     - **docker stop $(docker ps -a -q)**
+- Fresh start
+    - #stop and remove containers and associated images with common grep search term
+    - docker ps -a --no-trunc | grep "revendo" | awk '{print $1}' | xargs -r --no-run-if-empty docker stop && \
+      docker ps -a --no-trunc | grep "revendo" | awk '{print $1}' | xargs -r --no-run-if-empty docker rm && \
+      docker images --no-trunc | grep "revendo" | awk '{print $3}' | xargs -r --no-run-if-empty docker rmi
+    - #remove volumes
+    - docker volume rm $(docker volume ls -qf dangling=true)
 
 ### other
 
@@ -42,4 +51,5 @@
 - alice bundle: https://github.com/theofidry/AliceBundle
 - faker: https://fakerphp.github.io/formatters/
 - elasticsearch bundle: https://github.com/FriendsOfSymfony/FOSElasticaBundle
+- docker gists: https://gist.github.com/garystafford/f0bd5f696399d4d7df0f
 
