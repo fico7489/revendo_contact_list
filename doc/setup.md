@@ -27,3 +27,9 @@ The versions of the environment where app is developed and tested:
 - Kibana: localhost:5620
 - Mailhog: localhost:8502
 
+### Tests
+
+- docker exec -it REVENDO_php sh
+- bin/console doctrine:migrations:migrate --env=test
+- bin/phpunit
+
