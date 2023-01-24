@@ -52,4 +52,4 @@
 - faker: https://fakerphp.github.io/formatters/
 - elasticsearch bundle: https://github.com/FriendsOfSymfony/FOSElasticaBundle
 - docker gists: https://gist.github.com/garystafford/f0bd5f696399d4d7df0f
-
+- bootstrap nice admin: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/

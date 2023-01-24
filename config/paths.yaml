@@ -1,9 +1,0 @@
-when@dev:
-    parameters:
-        app.contact_profile_photos_url: /uploads/contacts/
-        app.contact_profile_photos_directory: '%kernel.project_dir%/public/uploads/contacts/'
-
-when@test:
-    parameters:
-        app.contact_profile_photos_url: /uploads/contacts-testing/
-        app.contact_profile_photos_directory: '%kernel.project_dir%/public/uploads/contacts-testing/'
