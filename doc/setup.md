@@ -19,7 +19,7 @@ The versions of the environment where app is developed and tested:
     - bin/console hautelook:fixtures:load
     - bin/console fos:elastica:populate
 - GO TO: localhost:5002
-- thats it, enjoy!
+- that's it, enjoy!
 
 ### Urls
 
