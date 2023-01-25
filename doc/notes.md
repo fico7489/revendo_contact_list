@@ -25,4 +25,3 @@
 - 3 tests are created (for api, for backend request, and for listener -> email send)
 - basic API Platform api is created with implemented filtering and sorting for getCollection() with tests
 
-

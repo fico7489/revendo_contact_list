@@ -30,15 +30,15 @@ services:
                 name: 'doctrine.event_listener'
                 event: 'onFlush'
                 priority: 500
-
-                # you can also restrict listeners to a specific Doctrine connection
                 connection: 'default'
+
     App\EventListener\RemoveFileForDeletedContact:
         tags:
             - name: 'doctrine.event_listener'
               event: 'postRemove'
               priority: 500
               connection: 'default'
+
     App\Vendor\Alice\Locator\CustomOrderFilesLocator:
         arguments:
             - '@hautelook_alice.locator.environmentless'    # Decorates the currently used file locator

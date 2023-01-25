@@ -6,7 +6,6 @@
 - vendor/bin/phpstan analyse
 - bin/console lint:twig templates
 - bin/phpunit
-- curl -GET http://127.0.0.1:9220
 
 ### symfony commands
 
@@ -18,7 +17,7 @@
 - bin/console fos:elastica:populate
 - composer recipes symfony/twig-bundle
 
-### docker
+### docker commands
 
 - Remove dangling images
     - **docker image prune**
@@ -44,7 +43,7 @@
     - #remove volumes
     - docker volume rm $(docker volume ls -qf dangling=true)
 
-### other
+### resources
 
 - api platform: https://api-platform.com/
 - alice: https://github.com/nelmio/alice
