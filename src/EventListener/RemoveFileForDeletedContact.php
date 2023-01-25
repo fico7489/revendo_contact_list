@@ -21,12 +21,12 @@ class RemoveFileForDeletedContact
         $entity = $eventArgs->getObject();
 
         if ($entity instanceof ContactProfilePhoto) {
-            $filename = $entity->getName();
+            $filename = $entity->getPath();
 
             /** @var string $uploadDirectory */
             $uploadDirectory = $this->parameters->get('app.contact_profile_photos_directory');
             $filesystem = new Filesystem();
-            $filesystem->remove($uploadDirectory.'/'.$filename);
+            $filesystem->remove($uploadDirectory.$filename);
         }
     }
 }
