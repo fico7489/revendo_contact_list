@@ -11,7 +11,6 @@
 
 - bin/console doctrine:migrations:diff
 - bin/console doctrine:migrations:migrate
-- bin/console doctrine:fixtures:load
 - bin/console debug:router
 - bin/console hautelook:fixtures:load
 - bin/console fos:elastica:populate

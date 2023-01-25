@@ -1,7 +1,3 @@
 parameters:
-    app.contact_profile_photos_url: /uploads/contacts/
+    app.contact_profile_photos_url: /uploads/contacts_%kernel.environment%/
     app.contact_profile_photos_directory: '%kernel.project_dir%/public%app.contact_profile_photos_url%'
-
-when@test:
-    parameters:
-        app.contact_profile_photos_url: /uploads/contacts-testing/
