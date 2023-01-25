@@ -21,7 +21,7 @@
 - Remove dangling images
     - **docker image prune**
 - Show all images:
-    - **docker image ls | sort**
+    - **docker image ls | sort | grep 'revendo'**
 - Show all stopped containers
     - **docker ps --filter status="exited" | sort -k 2**
 - Show all stopped containers by name
@@ -41,7 +41,8 @@
       docker images --no-trunc | grep "revendo" | awk '{print $3}' | xargs -r --no-run-if-empty docker rmi
     - #remove volumes
     - docker volume rm $(docker volume ls -qf dangling=true)
-
+    - #prune all stopped containers, not used networks, dangling images, build cache
+    - docker system prune
 ### resources
 
 - api platform: https://api-platform.com/
